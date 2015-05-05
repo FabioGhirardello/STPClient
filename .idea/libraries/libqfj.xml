@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="libqfj">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/libqfj" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/libqfj" recursive="false" />
+  </library>
+</component>

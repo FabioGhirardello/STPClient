@@ -1,0 +1,93 @@
+CREATE TABLE STPMessage (
+ TradeId TEXT,
+ Type TEXT,
+ OrderID TEXT,
+ WorkflowChannel TEXT,
+ TradeDate TEXT,
+ TradeExecTimeStamp TEXT,
+ Role TEXT,
+ BuySell TEXT,
+ BaseCcy TEXT,
+ TermCcy TEXT,
+ Dealt TEXT,
+ BaseAmt REAL,
+ TermAmt REAL,
+ ValueDate TEXT,
+ Tenor TEXT,
+ AllInRate REAL,
+ SpotRate REAL,
+ FwdPoints REAL,
+ MidRate  REAL,
+ 
+ Mkt_AllInRate REAL,
+ Mkt_SpotRate REAL,
+ Mkt_FwdPoints REAL,
+ 
+ Sprd_PM_Spot REAL,
+ Sprd_PM_Fwd REAL,
+ Sprd_PP_Spot REAL,
+ Sprd_PP_Fwd REAL,
+ Sprd_PP_Total REAL,
+  
+ 
+ OrgID  TEXT,
+ OrgLE  TEXT,
+ OrgUser  TEXT,
+
+ CptyID TEXT,
+ CptyLE  TEXT,
+ CptyUser  TEXT,
+ CoveredTradeID  TEXT,
+ CoverTradesID TEXT,
+ OriginatingOrderID  TEXT,
+ UTI  TEXT,
+ UPI TEXT,
+ 
+ NearDealt   TEXT,
+ NearBaseAmt   REAL,
+ NearTermAmt   REAL,
+ NearValueDate   TEXT,
+ NearTenor   TEXT,
+ NearSpotDate   TEXT,
+ NearFwdPoints   REAL,
+ NearAllInRate   REAL,
+ 
+ NearMidRateSpot   REAL,
+ NearMidRateFwdPoints   REAL,
+ NearMidAllInRate   REAL,
+ 
+ NearMkt_AllInRate REAL,
+ NearMkt_SpotRate REAL,
+ NearMkt_FwdPoints REAL,
+ 
+ NearUTI   TEXT,
+ NearUSI   TEXT,
+ 
+ FarDealt   TEXT,
+ FarBaseAmt   REAL,
+ FarTermAmt   REAL,
+ FarValueDate   TEXT,
+ FarTenor   TEXT,
+ FarSpotDate   TEXT,
+ FarFwdPoints   REAL,
+ FarAllInRate   REAL,
+ 
+ FarMidRateSpot   REAL,
+ FarMidRateFwdPoints   REAL,
+ FarMidAllInRate   REAL,
+ 
+ FarMkt_AllInRate   REAL,
+ FarMkt_SpotRate    REAL,
+ FarMkt_FwdPoints   REAL,
+ 
+ Sprd_PM_FarSpot  REAL,
+ Sprd_PP_Far   REAL,
+   
+ FarUTI   TEXT,
+ FarUSI TEXT
+ )
+
+
+
+
+

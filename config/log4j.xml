@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration debug="false">
+
+	<!-- Default appender writing message to STD OUT -->
+	<appender name="STD_OUT" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd} %d{ABSOLUTE} %5p %m%n" />
+		</layout>
+	</appender>
+
+	<!-- Default appender writing message to DEV NULL -->
+	<appender name="DEV_NULL" class="org.apache.log4j.varia.NullAppender">
+			<layout class="org.apache.log4j.PatternLayout">
+				<param name="ConversionPattern" value="%m%n" />
+		</layout>
+	</appender>
+
+	<!-- Appender writing message to a rolling file. -->
+	<appender name="APP_LOG" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="App.log" />
+        <param name="DatePattern" value=".yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd} %d{ABSOLUTE} %5p %m%n" />
+		</layout>
+	</appender>
+
+	<!-- Appender writing message to another rolling file. -->
+	<appender name="STP_MESSAGES_TXT" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="STPMessages.txt" />
+		<param name="DatePattern" value=".yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%m%n" />
+		</layout>
+	</appender>
+
+	<!-- com.integral logs the messages from the STPConnector -->
+	<category name="com.integral" additivity="false">
+		<priority value="INFO" />
+		<appender-ref ref="STD_OUT" />
+		<appender-ref ref="APP_LOG" />
+	</category>
+
+	<category name="STPClient" additivity="false">
+		<priority value="INFO" />
+		<appender-ref ref="APP_LOG" />
+		<appender-ref ref="STD_OUT" />
+	</category>
+
+	<!-- MyTrade just logs the STP messages -->
+	<category name="MyTrade" additivity="false">
+		<priority value="INFO" />
+		<appender-ref ref="APP_LOG" />
+		<appender-ref ref="STD_OUT" />
+	</category>
+
+
+	<!-- Default root category. -->
+	<root>
+		<priority value="INFO" />
+		<appender-ref ref="DEV_NULL" />
+	</root>
+
+
+</log4j:configuration>
