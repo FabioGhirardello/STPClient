@@ -9,7 +9,7 @@ The app was compiled with Java 1.7.
 If you plan to insert deals into a database, ensure the JRE and database have the same architecture (32/64 bits).
 
 Main jars: 
-- STPclient.jar,
+- STPClient.jar,
 - STPConnector.jar,
 - com.ibm.mq.jar,
 - com.ibm.mqjms.jar,
