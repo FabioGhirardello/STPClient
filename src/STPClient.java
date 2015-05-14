@@ -1,23 +1,30 @@
 import com.integral.stpclient.STPDownloadClientC;
 import org.apache.log4j.Logger;
+import org.w3c.dom.Document;
 
-import java.io.*;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Properties;
 
 public class STPClient {
     private static Logger log = Logger.getLogger("STPClient");
     private static Logger logTrade = Logger.getLogger("MyTrade");
-    private static String VERSION = " 2.2 - 2015-05-05";
+    private static String VERSION = " 2.3 - 2015-05-14";
 
     private static DB db;
     private static Email email;
     private static WL wl;
     private static QFJ qfj;
-    private static boolean isToBeSaved = false;
+    private static WriteFile writeFile;
 
 
     // STP connection variables
@@ -49,14 +56,14 @@ public class STPClient {
     private static String EMAIL_USERNAME;
     private static String EMAIL_PASSWORD;
     private static String EMAIL_STYLESHEET;
-    private static String EMAIL_TITLE;
+    private static String EMAIL_SUBJECT;
     private static String EMAIL_IMAGE;
 
     // White Label Properties variables
     private static String WL_SWITCH;
     private static String WL_CPTY_ID;
     private static String WL_STYLESHEET;
-    private static String WL_TITLE;
+    private static String WL_SUBJECT;
     private static String WL_CLIENTS_EMAILS;
 
     // Save To File variables
@@ -73,7 +80,7 @@ public class STPClient {
 
     public static void main(String args[])
     {
-        log.info("FabSTPClient version" + VERSION);
+        log.info("STPClient version" + VERSION);
 
         // print out the config file
         try {
@@ -93,17 +100,17 @@ public class STPClient {
         // check if there's a email setup
         if (EMAIL_SWITCH.equalsIgnoreCase("ON")) {
             email = new Email(EMAIL_FROM, EMAIL_TO, EMAIL_HOST, EMAIL_PORT, EMAIL_USERNAME,
-                    EMAIL_PASSWORD, EMAIL_AUTH, EMAIL_STYLESHEET, EMAIL_TITLE, EMAIL_IMAGE);
+                    EMAIL_PASSWORD, EMAIL_AUTH, EMAIL_STYLESHEET, EMAIL_SUBJECT, EMAIL_IMAGE);
         }
 
         //check if there's a WL email setup
         if (WL_SWITCH.equalsIgnoreCase("ON") && EMAIL_SWITCH.equalsIgnoreCase("ON") ) {
-            wl = new WL(email, WL_CPTY_ID, WL_STYLESHEET, WL_TITLE, WL_CLIENTS_EMAILS);
+            wl = new WL(email, WL_CPTY_ID, WL_STYLESHEET, WL_SUBJECT, WL_CLIENTS_EMAILS);
         }
 
         // check if deals need to be saved to an individual file
         if (FILE_SWITCH.equalsIgnoreCase("ON")) {
-            isToBeSaved = true;
+            writeFile = new WriteFile(FILE_DATE_FORMAT, FILE_COUNTER, FILE_TITLE, FILE_PATH);
         }
 
         // check if deals need to be sent via FIX
@@ -117,7 +124,7 @@ public class STPClient {
                 new STPDownloadClientC.OnMessageReceived() {
                     @Override
                     //here 'messageReceived' method-event is implemented
-                    public void messageReceived(String tradeID, String xmlmessage) {
+                    public void messageReceived(String tradeID, Document xmlmessage) {
                         publish(tradeID, xmlmessage);
                     }
                 });
@@ -161,14 +168,14 @@ public class STPClient {
             EMAIL_USERNAME = prop.getProperty("EMAIL.USERNAME");
             EMAIL_PASSWORD = prop.getProperty("EMAIL.PASSWORD");
             EMAIL_STYLESHEET = prop.getProperty("EMAIL.STYLESHEET", "");
-            EMAIL_TITLE = prop.getProperty("EMAIL.TITLE", "");
+            EMAIL_SUBJECT = prop.getProperty("EMAIL.SUBJECT", "");
             EMAIL_IMAGE = prop.getProperty("EMAIL.IMAGE", "");
 
             // get the White Label properties
             WL_SWITCH = prop.getProperty("WL.SWITCH","OFF");
             WL_CPTY_ID = prop.getProperty("WL.CPTY_ID");
-            WL_STYLESHEET = prop.getProperty("WL.STYLESHEET");
-            WL_TITLE = prop.getProperty("WL.TITLE");
+            WL_STYLESHEET = prop.getProperty("WL.STYLESHEET","");
+            WL_SUBJECT = prop.getProperty("WL.SUBJECT","");
             WL_CLIENTS_EMAILS = prop.getProperty("WL.CLIENTS_EMAILS");
 
             // get Save to File properties
@@ -176,7 +183,7 @@ public class STPClient {
             FILE_PATH = prop.getProperty("FILE.PATH");
             FILE_DATE_FORMAT = prop.getProperty("FILE.DATE_FORMAT", "");
             FILE_COUNTER = prop.getProperty("FILE.COUNTER", "");
-            FILE_TITLE = prop.getProperty("FILE.TITLE");
+            FILE_TITLE = prop.getProperty("FILE.NAME");
 
             // get QuickFix/J  properties
             QFJ_SWITCH = prop.getProperty("QFJ.SWITCH", "OFF");
@@ -201,99 +208,45 @@ public class STPClient {
     /*
      * This method is called once a new STP message has arrived
      */
-    private static void publish(String tradeID, String xmlMessage) {
-        logTrade.info(xmlMessage);
-        if (isToBeSaved) writeToFile(tradeID, xmlMessage);
+    private static void publish(String tradeID, Document doc) {
+        logTrade.info(docToString(doc));
         if (db != null) {
-            db.insert(tradeID, xmlMessage);
+            db.insert(tradeID, doc);
         }
         if (email != null) {
-            email.send(tradeID, xmlMessage);
+            email.send(tradeID, doc);
         }
         if (wl != null) {
-            wl.sendEmailToWLClient(tradeID,xmlMessage);
+            wl.sendEmailToWLClient(tradeID, doc);
+        }
+        if (writeFile != null) {
+            writeFile.writeToFile(tradeID, docToString(doc));
         }
         if (qfj != null) {
-            qfj.sendTradeCaptureReport(xmlMessage);
+            qfj.sendTradeCaptureReport(doc);
         }
     }
 
 
-
-    private static void writeToFile(String tradeId, String xmlMessage) {
-        Date dateNow = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat(FILE_DATE_FORMAT);
-        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
-        int counter = 0;
-
-        if (!FILE_COUNTER.equalsIgnoreCase("")) {
-            // Open the Counter file
-            String fileCounterName = FILE_COUNTER + "." + sdf2.format(dateNow);
-            try {
-                File f = new File(fileCounterName);
-                if (f.exists() && !f.isDirectory()) {
-                    String line = new String(Files.readAllBytes(Paths.get(fileCounterName)));
-                    counter = Integer.parseInt(line);
-                }
-            } catch (IOException e) {
-                log.error("[ERR003] ", e);
-            }
-
-            // update the counter
-            try {
-                FileWriter f2 = null;
-                f2 = new FileWriter(fileCounterName, false);
-                f2.write(String.valueOf(counter + 1));
-                f2.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        // Title
-        String fileTitle = "";
-        String[] fields = FILE_TITLE.split(",");
+    public static String docToString(Document doc) {
         try {
-            for (int j = 0; j < fields.length; j++) {
-                if (fields[j].charAt(0) == '<') {
-                    String n = fields[j].replace("<", "").replace(">", "");
+            StringWriter sw = new StringWriter();
+            TransformerFactory tf = TransformerFactory.newInstance();
+            Transformer transformer = tf.newTransformer();
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 
-                    switch (n.toUpperCase()) {
-                        case "COUNTER":
-                            fileTitle += counter;
-                            break;
-                        case "TRADEID":
-                            fileTitle += tradeId;
-                            break;
-                        case "DATE":
-                            fileTitle += sdf.format(dateNow);
-                            break;
-                        default:
-                            fileTitle += n;
-                            log.error("[ERR004] - The only valid keywords are 'Counter', 'Date' and 'TradeID'.");
-                    }
-                } else {
-                    fileTitle += fields[j];
-                }
+            if (doc.getFirstChild().getNodeName().equalsIgnoreCase("root")) {
+                transformer.setOutputProperty(OutputKeys.METHOD, "text");
             }
-        }
-        catch (Exception e) {
-            log.error("[ERR005] ", e);
-        }
+            //transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            //transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 
-        String filename = FILE_PATH + "/" + fileTitle;
-
-        try {
-            PrintWriter out = new PrintWriter(filename);
-            out.println(xmlMessage);
-            out.close();
-            log.info(tradeId + " - Saved to file " + filename);
-        } catch (FileNotFoundException e) {
-            log.error("[ERR006] ", e);
+            transformer.transform(new DOMSource(doc), new StreamResult(sw));
+            return sw.toString();
+        } catch (Exception ex) {
+            throw new RuntimeException("Error converting to String", ex);
         }
     }
-
 }
 
 

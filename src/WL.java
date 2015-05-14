@@ -3,66 +3,53 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
 import java.util.Properties;
 
 public class WL {
     public static Logger log = Logger.getLogger("STPClient");
 
-    private Email fabEmail;
+    private Email email;
     private String cptyId;
     private String stylesheet;
-    private String title;
+    private String subject;
 
-    private DocumentBuilderFactory dbf;
     private Properties prop;
 
-    public WL(Email fabEmail, String cptyId, String stylesheet, String title, String wlClientsEmails) {
-        this.fabEmail = fabEmail;
+    public WL(Email email, String cptyId, String stylesheet, String subject, String wlClientsEmails) {
+        this.email = email;
         this.cptyId = cptyId;
         this.stylesheet = stylesheet;
-        this.title = title;
-        this.readProperties(wlClientsEmails);
+        this.subject = subject;
 
-        dbf = DocumentBuilderFactory.newInstance();
+        this.readWLClientsProperties(wlClientsEmails);
     }
 
-    public void sendEmailToWLClient(String tradeId, String xmlMessage) {
+    public void sendEmailToWLClient(String tradeId, Document doc) {
         // get the email address from the file
-        String wlEmail = prop.getProperty(this.getCptyID(xmlMessage),"");
-        fabEmail.send(tradeId, xmlMessage, wlEmail, this.stylesheet, this.title);
+        email.send(tradeId, doc, prop.getProperty(this.getCptyID(doc), ""), this.stylesheet, this.subject);
     }
 
 
-    private String getCptyID(String xmlMessage) {
+    private String getCptyID(Document doc) {
         String cpty = "";
         try {
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            InputSource is = new InputSource();
-            is.setCharacterStream(new StringReader(xmlMessage));
-
-            Document doc = db.parse(is);
             Element docEle = doc.getDocumentElement();
             NodeList nl = docEle.getChildNodes();
             if (nl != null && nl.getLength() > 0) {
                 for (int i = 0; i < nl.getLength(); i++) {
                     if (nl.item(i).getNodeType() == Node.ELEMENT_NODE) {
                         Element el = (Element) nl.item(i);
-                        // avoid empty fields
                         if (el.getNodeName().equals(this.cptyId)) {
                             cpty = el.getTextContent();
                             break;
                         }
                     }
                 }
-            };
+            }
         }
         catch (Exception e) {
             log.error("[WL001] ", e);
@@ -71,11 +58,11 @@ public class WL {
     }
 
 
-    private void readProperties(String dbProperties) {
+    private void readWLClientsProperties(String wlClientsEmails) {
         InputStream input = null;
         try {
             prop = new Properties();
-            input = new FileInputStream(dbProperties);
+            input = new FileInputStream(wlClientsEmails);
 
             // load a properties file
             prop.load(input);

@@ -4,18 +4,15 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.StringReader;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 
 public class DB {
     public static Logger log = Logger.getLogger("STPClient");
-
-    private DocumentBuilderFactory dbf;
 
     // JDBC driver name and database URL
     private String JDBC_DRIVER;
@@ -29,14 +26,10 @@ public class DB {
         DB_URL=url;
         USERNAME=username;
         PASSWORD=password;
-
-        dbf = DocumentBuilderFactory.newInstance();
     }
 
-
-
-    public void insert(String tradeID, String xmlMessage) {
-        String sql = getSQLFromXML(xmlMessage);
+    public void insert(String tradeID, Document doc) {
+        String sql = getSQLFromXML(doc);
         Connection conn = null;
         Statement stmt = null;
         try{
@@ -75,21 +68,16 @@ public class DB {
 
 
     /* converts the string xml message into a proper xml document
- * then iterates through each node&value forming the final sql query.
- * The root node is the db table name, while each node is a column in the database.
- * Thus the stylesheet needs to be built with the database schema in mind.
- */
-    private String getSQLFromXML(String xmlMessage) {
-        String root = "";
+     * then iterates through each node&value forming the final sql query.
+     * The root node is the db table name, while each node is a column in the database.
+     * Thus the stylesheet needs to be built with the database schema in mind.
+     */
+    private String getSQLFromXML(Document doc) {
+        String root;
         String into = "";
         String values = "";
         String sql = "";
         try {
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            InputSource is = new InputSource();
-            is.setCharacterStream(new StringReader(xmlMessage));
-
-            Document doc = db.parse(is);
             Element docEle = doc.getDocumentElement();
             root = docEle.getNodeName();
             NodeList nl = docEle.getChildNodes();

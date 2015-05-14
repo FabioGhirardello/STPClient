@@ -1,7 +1,7 @@
 # STP CLIENT
 
-Version: 2.2
-Last update: 2015-05-05
+Version: 2.3
+Last update: 2015-05-14
 
 ### Java Dependencies:
 
@@ -45,7 +45,7 @@ another format using XSLT (http://www.w3schools.com/xsl/).
 XSLT requires a stylesheet file; the stylesheet file informs the XSLTransformer how the new file should look like. 
 For example, tidyXml.xsl will create a nicer and simpler xml file, while csv.xsl will create a comma separated line.
 
-These are the properties. You need to set the Stylesheet, the other properties will be provided by Integral.
+These are the properties. You need to set the Stylesheet, while the other properties will be provided by Integral.
 
 	STP.STYLESHEET=config/tidyXml.xsl
 	STP.IP=xxx.xxx.xxx.xxx
@@ -63,7 +63,6 @@ These are the properties. You need to set the Stylesheet, the other properties w
 
 Optionally, and only if the XSLT creates an xml file with just 1 level of depth - like tidyXml.xsl does -, the message
 can be saved to a database via the standard ODBC/JDBC connection properties.
-Furthermore, the ODBC driver needs to be added to the classpath.
 
 The stylesheet must be written with the database schema in mind: the application will use the output 
 xml file from the XSL Transformation as input for the SQL query, for example, say the XSLT file outputs:
@@ -90,8 +89,8 @@ Relevant properties are below. These are the standard ODBC connection details.
 
 ### Email
 
-Optionally, an email can be sent for every new message. If the stylesheet file is creating another XML file, then
-you can reformat the body of the email using another stylesheet file, and you can also customize the title using 
+Optionally, an email can be sent for every new message. If the stylesheet file is creating a XML file, then
+you can reformat the body of the email using another stylesheet file, and you can also customize the subject using
 as keywords the nodes in the XML message.
 You can also add a logo image. Below the properties.
 
@@ -105,43 +104,43 @@ You can also add a logo image. Below the properties.
 	EMAIL.USERNAME=
 	EMAIL.PASSWORD=
 	EMAIL.STYLESHEET=config/tidyEmail.xsl
-	EMAIL.TITLE=<TradeID>, ,<OrgID>, ,<BuySell>, ,<BaseCcy>,/,<TermCcy>, ,<BaseAmt>, ,<ValueDate>, vs ,<CptyID>, @ ,<AllInRate>
+	EMAIL.SUBJECT=<TradeID>, ,<OrgID>, ,<BuySell>, ,<BaseCcy>,/,<TermCcy>, ,<BaseAmt>, ,<ValueDate>, vs ,<CptyID>, @ ,<AllInRate>
 	EMAIL.IMAGE=config/integral.jpg
 
 ### White Label Email
 
-In addition, you can send an email to the counterparty. You will require a file with key value pairs for the email 
-addresses. An example is below:
+In addition, you can send an email to the counterparty. You will require a file with key-value pairs for the email 
+addresses. An example is below; the key is the Counterparty ID:
 
-	8000BRKZ=fabio@integral.com
-    1000BRKZ=joe@integral.com,sue@integral.com
+	8000BRKZ=treasury@bigbank.com
+    1000BRKZ=joe@abcbank.com,sue@abcbank.com
 
-You can specify a custom title and stylesheet, which you can setup so that the deal is from the point of view of the 
+You can specify a custom subject and stylesheet, which you can setup so that the deal is from the point of view of the
 counterparty. You must specify the node in the XML file that identifies the WL client.
-You are required to have the Email switch set to ON.
+You are required to set EMAIL.SWITCH to 'ON'.
 
 	WL.SWITCH=ON
 	WL.CPTY_ID=CptyID
 	WL.STYLESHEET=config/wlEmail.xsl
-	WL.TITLE=<TradeID>, ,<BaseCcy>,/,<TermCcy>, ,<BaseAmt>, ,<ValueDate>, @ ,<AllInRate>
+	WL.SUBJECT=<TradeID>, ,<BaseCcy>,/,<TermCcy>, ,<BaseAmt>, ,<ValueDate>, @ ,<AllInRate>
 	WL.CLIENTS_EMAILS=config/WLClients.txt
 
 
 ### Save individual deals to a file
 
 Optionally, you can save each deal to an individual file. You can use specific keywords (Date, TradeID
-and Counter) to customize the title.
+and Counter) to customize the file name.
 The counter reset every day and starts at 0 if not specified. To enable the counter, you must specify the file location.
 
 	FILE.SWITCH=ON
 	FILE.PATH=C:/Users/ghirardellof/IdeaProjects/STPclient
 	FILE.DATE_FORMAT=yyyyMMdd_HHmmss
 	FILE.COUNTER=config/counter
-	FILE.TITLE=<TradeID>,.,<Date>,.xml
+	FILE.NAME=<TradeID>,.,<Date>,.xml
 
 ### FIX messsaging
 
-You can convert the FinXML message into a FIX message and send it. The stylesheet must output a file with the tag number, like in
+You can convert the FinXML message into a FIX message and send it. The stylesheet must output a file with the tag number, like in:
 
 	<myMessage>
 		<dealid_17>FXI123456789</dealid_17>
@@ -170,5 +169,5 @@ and the properties file, the xsl files and a log4j.xml file in config/.
 ### Logging
 
 Messages can be saved into a separate log file. This is accomplished with the logging utility 'log4j' by setting the proper
-appender to the category "com.MyTrade".
+appender to the category "MyTrade".
 Log4j requires its own configuration file.

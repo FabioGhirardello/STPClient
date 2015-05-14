@@ -1,9 +1,9 @@
 <component name="ArtifactManager">
-  <artifact name="STPclient:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/STPclient_jar</output-path>
+  <artifact name="STPClient:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/STPClient_jar</output-path>
     <root id="root">
-      <element id="archive" name="STPclient.jar">
-        <element id="module-output" name="STPclient" />
+      <element id="archive" name="STPClient.jar">
+        <element id="module-output" name="STPClient" />
       </element>
     </root>
   </artifact>

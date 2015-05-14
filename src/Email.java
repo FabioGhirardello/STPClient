@@ -3,21 +3,22 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
-import javax.mail.*;
-import javax.mail.internet.*;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.*;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.MimeBodyPart;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
-import java.io.*;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+import java.io.File;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.Properties;
 
 public class Email
@@ -28,19 +29,17 @@ public class Email
     private String FROM;
     private String TO;
     private String STYLESHEET;
-    private String TITLE;
+    private String SUBJECT;
     private String IMAGE;
 
-    private DocumentBuilderFactory dbf;
 
     public Email(String from, String to, String host, String port, String username,
-                    String password, String auth, String stylesheet, String title, String image) {
+                    String password, String auth, String stylesheet, String subject, String image) {
         FROM = from;
         TO = to;
         STYLESHEET = stylesheet;
-        TITLE = title;
+        SUBJECT = subject;
         IMAGE = image;
-        dbf = DocumentBuilderFactory.newInstance();
 
         try {
             // Get system properties
@@ -61,13 +60,12 @@ public class Email
     }
 
 
-    public void send (String tradeID, String xmlText) {
-        this.send(tradeID, xmlText, this.TO, this.STYLESHEET, this.TITLE);
+    public void send (String tradeID, Document doc) {
+        this.send(tradeID, doc, this.TO, this.STYLESHEET, this.SUBJECT);
     }
 
-    public void send (String tradeID, String xmlText, String to, String stylesheet, String titleFormat) {
+    public void send (String tradeID, Document doc, String to, String stylesheet, String subjectFormat) {
         if (!to.equalsIgnoreCase("")) {
-            xmlText = xmlText.replaceAll("><", ">\n<");
             try {
                 // Create a default MimeMessage object.
                 MimeMessage message = new MimeMessage(this.session);
@@ -79,13 +77,19 @@ public class Email
                 message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
 
                 // Set Subject: header field
-                message.setSubject(getTitle(xmlText, titleFormat));
+                String subject = getSubject(doc, subjectFormat);
+                if (subject.equalsIgnoreCase("")) {
+                    message.setSubject(tradeID);
+                }
+                else {
+                    message.setSubject(subject);
+                }
 
                 // Now set the actual message
                 if (!stylesheet.equalsIgnoreCase("")) {
-                    StreamSource isXml = new StreamSource(new StringReader(xmlText));
+
                     StreamSource isXsl = new StreamSource(new File(stylesheet).getAbsoluteFile());
-                    String res = XslTransform(isXml, isXsl);
+                    String res = XslTransform(new DOMSource(doc), isXsl);
                     // This mail has 2 part, the BODY and the embedded image
                     MimeMultipart multipart = new MimeMultipart("related");
                     // first part (the html)
@@ -106,7 +110,7 @@ public class Email
                     // put everything together
                     message.setContent(multipart);
                 } else {
-                    message.setText(xmlText);
+                    message.setText(STPClient.docToString(doc).replaceAll("><", ">\n<"));
                 }
 
                 // Send message
@@ -143,15 +147,11 @@ public class Email
         return outputString ;
     }
 
-    private String getTitle(String xmlTitle, String titleFormat) {
+    private String getSubject(Document doc, String subjectFormat) {
         String t = "";
-        String[] fields = titleFormat.split(",");
+        String[] fields = subjectFormat.split(",");
 
         try {
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            InputSource is = new InputSource();
-            is.setCharacterStream(new StringReader(xmlTitle));
-            Document doc = db.parse(is);
             Element docEle = doc.getDocumentElement();
             NodeList nl = docEle.getChildNodes();
 
@@ -175,7 +175,8 @@ public class Email
             }
         }
         catch (Exception e) {
-            log.error("[EMA004] ", e);
+            log.error("[EMA004] - Unable to build the email subject");
+            t = "";
         }
         return t;
     }

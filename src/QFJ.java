@@ -3,7 +3,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 import quickfix.*;
 import quickfix.field.MsgType;
 import quickfix.field.Password;
@@ -11,12 +10,9 @@ import quickfix.field.Username;
 import quickfix.fix43.Logon;
 import quickfix.fix43.TradeCaptureReport;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.StringReader;
 import java.util.Properties;
 
 
@@ -24,13 +20,11 @@ public class QFJ extends MessageCracker implements Application {
     public static Logger log = Logger.getLogger("STPClient");
     private SessionSettings sessionSettings;
     private SessionID priceSessionID = null;
-    private DocumentBuilderFactory dbf;
 
     private boolean isReady = false;
 
 
     public QFJ(String configFile)  {
-        dbf = DocumentBuilderFactory.newInstance();
         InputStream fileInputStream = null;
         try {
             fileInputStream = new FileInputStream(configFile);
@@ -113,15 +107,9 @@ public class QFJ extends MessageCracker implements Application {
         // empty, this is needed so that messages don't get rejected
     }
 
-    public void sendTradeCaptureReport(String xmlMessage) {
+    public void sendTradeCaptureReport(Document doc) {
         TradeCaptureReport message = new TradeCaptureReport();
-
         try {
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            InputSource is = new InputSource();
-            is.setCharacterStream(new StringReader(xmlMessage));
-
-            Document doc = db.parse(is);
             Element docEle = doc.getDocumentElement();
             NodeList nl = docEle.getChildNodes();
             if (nl != null && nl.getLength() > 0) {
