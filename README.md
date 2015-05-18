@@ -81,7 +81,7 @@ Then the sql query will be:
 Relevant properties are below. These are the standard ODBC connection details.
 
 	DB.SWITCH=ON
-	jdbcDriver=org.sqlite.JDBC
+	DB.JDBC_DRIVER=org.sqlite.JDBC
 	DB.URL=jdbc:sqlite:STPMessages.db
 	DB.USERNAME=
 	DB.PASSWORD=
@@ -119,7 +119,7 @@ You can specify a custom stylesheet, image and subject so that the deal is from 
 Set property *WL.SIDE_INDICATOR* to help customize the subject of the email with the direction from the perspective
 of the WL client. The value to this property should be the field name that indicates the side followed by the indicators 
 used to identify a buy or a sell (eg: Buy/Sell; B/S; 1/2; etc.). The 3 values should be comma separated (eg:Side,Buy,Sell).
-Once this property is configured, adding eg: <Side> to the WL.SUBJECT will return the direction from the perspective of the 
+Once this property is configured, adding eg: \<Side\> to the WL.SUBJECT will return the direction from the perspective of the
 WL client. You must set in WL.CPTY_ID the node in the XML file that identifies the WL client organization.
 You are required to set EMAIL.SWITCH to 'ON'.
 
@@ -144,7 +144,7 @@ The counter reset every day and starts at 0 if not specified. To enable the coun
 	FILE.COUNTER=config/counter
 	FILE.NAME=<TradeID>,.,<Date>,.xml
 
-### FIX messsaging
+### FIX messaging
 
 You can convert the FinXML message into a FIX message. The stylesheet must output a file with parameter 'tag'.
 Example output file:
