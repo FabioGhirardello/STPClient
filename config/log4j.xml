@@ -35,8 +35,8 @@
 		</layout>
 	</appender>
 
-	<!-- com.integral logs the messages from the STPConnector -->
-	<category name="com.integral" additivity="false">
+	<!-- IBMMQClient logs the messages from the STPConnector -->
+	<category name="IBMMQClient" additivity="false">
 		<priority value="INFO" />
 		<appender-ref ref="DEV_NULL" />
 		<appender-ref ref="APP_LOG" />

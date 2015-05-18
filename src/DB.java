@@ -15,17 +15,17 @@ public class DB {
     public static Logger log = Logger.getLogger("STPClient");
 
     // JDBC driver name and database URL
-    private String JDBC_DRIVER;
-    private String DB_URL;
+    private String jdbcDriver;
+    private String dbUrl;
     //  Database credentials
-    private String USERNAME;
-    private String PASSWORD;
+    private String username;
+    private String password;
 
-    public DB(String jdbc_driver, String url, String username, String password) {
-        JDBC_DRIVER=jdbc_driver;
-        DB_URL=url;
-        USERNAME=username;
-        PASSWORD=password;
+    public DB(String jdbcDriver, String url, String username, String password) {
+        this.jdbcDriver = jdbcDriver;
+        this.dbUrl = url;
+        this.username = username;
+        this.password = password;
     }
 
     public void insert(String tradeID, Document doc) {
@@ -34,11 +34,11 @@ public class DB {
         Statement stmt = null;
         try{
             //STEP 2: Register JDBC driver
-            Class.forName(JDBC_DRIVER);
+            Class.forName(jdbcDriver);
             // I prefer to test conn is up and running by executing the sql query.
             // http://stackoverflow.com/questions/7764671/java-jdbc-connection-status
             //STEP 3: Open a connection
-             conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+             conn = DriverManager.getConnection(dbUrl, username, password);
 
             //STEP 4: Execute a query
             stmt = conn.createStatement();

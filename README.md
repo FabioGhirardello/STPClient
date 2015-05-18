@@ -1,7 +1,7 @@
 # STP CLIENT
 
-Version: 2.3
-Last update: 2015-05-14
+Version: 2.4
+Last update: 2015-05-18
 
 ### Java Dependencies:
 
@@ -81,7 +81,7 @@ Then the sql query will be:
 Relevant properties are below. These are the standard ODBC connection details.
 
 	DB.SWITCH=ON
-	DB.JDBC_DRIVER=org.sqlite.JDBC
+	jdbcDriver=org.sqlite.JDBC
 	DB.URL=jdbc:sqlite:STPMessages.db
 	DB.USERNAME=
 	DB.PASSWORD=
@@ -115,15 +115,21 @@ addresses. An example is below; the key is the Counterparty ID:
 	8000BRKZ=treasury@bigbank.com
     1000BRKZ=joe@abcbank.com,sue@abcbank.com
 
-You can specify a custom subject and stylesheet, which you can setup so that the deal is from the point of view of the
-counterparty. You must specify the node in the XML file that identifies the WL client.
+You can specify a custom stylesheet, image and subject so that the deal is from the client's perspective. 
+Set property *WL.SIDE_INDICATOR* to help customize the subject of the email with the direction from the perspective
+of the WL client. The value to this property should be the field name that indicates the side followed by the indicators 
+used to identify a buy or a sell (eg: Buy/Sell; B/S; 1/2; etc.). The 3 values should be comma separated (eg:Side,Buy,Sell).
+Once this property is configured, adding eg: <Side> to the WL.SUBJECT will return the direction from the perspective of the 
+WL client. You must set in WL.CPTY_ID the node in the XML file that identifies the WL client organization.
 You are required to set EMAIL.SWITCH to 'ON'.
 
 	WL.SWITCH=ON
-	WL.CPTY_ID=CptyID
-	WL.STYLESHEET=config/wlEmail.xsl
-	WL.SUBJECT=<TradeID>, ,<BaseCcy>,/,<TermCcy>, ,<BaseAmt>, ,<ValueDate>, @ ,<AllInRate>
-	WL.CLIENTS_EMAILS=config/WLClients.txt
+    WL.CPTY_ID=CptyID
+    WL.STYLESHEET=config/wlEmail.xsl
+    WL.SUBJECT=<TradeID>, ,<CptyUser>, ,<Side>,s, ,<BaseCcy>,/,<TermCcy>, ,<BaseAmt>, ,<ValueDate>, @ ,<AllInRate>
+    WL.SIDE_INDICATOR=Side,Buy,Sell
+    WL.CLIENTS_EMAILS=config/WLClients.txt
+    WL.IMAGE=config/wlIntegral.jpg
 
 
 ### Save individual deals to a file
@@ -140,15 +146,16 @@ The counter reset every day and starts at 0 if not specified. To enable the coun
 
 ### FIX messsaging
 
-You can convert the FinXML message into a FIX message and send it. The stylesheet must output a file with the tag number, like in:
+You can convert the FinXML message into a FIX message. The stylesheet must output a file with parameter 'tag'.
+Example output file:
 
 	<myMessage>
-		<dealid_17>FXI123456789</dealid_17>
-		<tradedate_64>2014-10-07</tradedate_64>
-		<rate_44>1.65897</rate_44>
+		<TradeId tag="17">FXI123456789</TradeId>
+		<TradeDate tag="64">2014-10-07</TradeDate>
+		<AllInRate tag="44">1.65897</AllInRate>
 	</myMessage>
 
-The the FIX message TradeCaptureReport (AE) will output something like this: 
+Then the FIX message TradeCaptureReport (AE) will output something like this:
 
 	[...]|17=FXI123456789|64=2014-10-07|44=1.65897|[...]
 	
@@ -170,4 +177,4 @@ and the properties file, the xsl files and a log4j.xml file in config/.
 
 Messages can be saved into a separate log file. This is accomplished with the logging utility 'log4j' by setting the proper
 appender to the category "MyTrade".
-Log4j requires its own configuration file.
+Log4j requires its own configuration file. The category that returns the application logging is 'STPClient'.

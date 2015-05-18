@@ -110,17 +110,12 @@ public class QFJ extends MessageCracker implements Application {
     public void sendTradeCaptureReport(Document doc) {
         TradeCaptureReport message = new TradeCaptureReport();
         try {
-            Element docEle = doc.getDocumentElement();
-            NodeList nl = docEle.getChildNodes();
-            if (nl != null && nl.getLength() > 0) {
-                for (int i = 0; i < nl.getLength(); i++) {
-                    if (nl.item(i).getNodeType() == Node.ELEMENT_NODE) {
-                        Element el = (Element) nl.item(i);
-                        // avoid empty fields
-                        if (!el.getTextContent().equals("")) {
-                            String[] s = el.getNodeName().split("_");
-                            message.setField(new StringField(Integer.valueOf(s[1]), el.getTextContent()));
-                        }
+            NodeList nodeList = doc.getDocumentElement().getChildNodes();
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                if (nodeList.item(i) instanceof Element) {
+                    Element element = (Element) nodeList.item(i);
+                    if (!element.getTextContent().equals("")) {
+                        message.setField(new StringField(Integer.valueOf(element.getAttribute("tag")), element.getTextContent()));
                     }
                 }
             }

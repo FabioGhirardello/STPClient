@@ -8,203 +8,201 @@
 	<xsl:template match="/">
 
 		<STPMessage>
-			<TradeId_17>
-				<xsl:value-of select="workflowMessage/entityReference/transactionId"/></TradeId_17>
-			<Type_18>
-				<xsl:value-of select="workflowMessage/parameter[1]"/></Type_18>
+			<TradeId tag="17">
+				<xsl:value-of select="workflowMessage/entityReference/transactionId"/></TradeId>
+			<Type tag="18">
+				<xsl:value-of select="workflowMessage/parameter[1]"/></Type>
 
 			<!-- if the deal is a FXSpot or FXOutright, the data is in the <fxSingleLeg> node -->
 			<xsl:if test="workflowMessage/parameter[1] = 'FXSpot' or workflowMessage/parameter[1] = 'FXOutright'">
 
-				<OrderID_11>
-					<xsl:value-of select="workflowMessage/fxSingleLeg/@orderId"/></OrderID_11>
-				<WorkflowChannel_578>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/channel"/></WorkflowChannel_578>
-				<TradeExecTimeStamp_60>
-					<xsl:value-of select="substring(/workflowMessage/fxSingleLeg/entryDateTime,0,20)"/></TradeExecTimeStamp_60>
-				<TradeDate_75>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/tradeDate"/></TradeDate_75>
-				<Role_7549>
-					<xsl:value-of select="workflowMessage/parameter[3]"/></Role_7549>
+				<OrderID tag="11">
+					<xsl:value-of select="workflowMessage/fxSingleLeg/@orderId"/></OrderID>
+				<WorkflowChannel tag="578">
+					<xsl:value-of select="/workflowMessage/fxSingleLeg/channel"/></WorkflowChannel>
+				<TradeExecTimeStamp tag="60">
+					<xsl:value-of select="substring(/workflowMessage/fxSingleLeg/entryDateTime,0,20)"/></TradeExecTimeStamp>
+				<TradeDate tag="75">
+					<xsl:value-of select="/workflowMessage/fxSingleLeg/tradeDate"/></TradeDate>
+				<Role tag="7549">
+					<xsl:value-of select="workflowMessage/parameter[3]"/></Role>
 				<xsl:choose>
 					<xsl:when test="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/legalEntityBuysBase = 'true'">
-						<Side_54>1</Side_54></xsl:when>
+						<Side tag="54">1</Side></xsl:when>
 					<xsl:otherwise>
-						<Side_54>2</Side_54></xsl:otherwise>
+						<Side tag="54">2</Side></xsl:otherwise>
 				</xsl:choose>
 
-				<BaseCcy_55>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/fxRate/baseCurrency"/></BaseCcy_55>
-				<TermCcy_120>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/fxRate/variableCurrency"/></TermCcy_120>
-				<Dealt_15>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/dealtCurrency"/></Dealt_15>
-				<BaseAmt_32>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/baseCurrencyAmount"/></BaseAmt_32>
-				<TermAmt_119>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/termCurrencyAmount"/></TermAmt_119>
-				<ValueDate_64>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/valueDate"/></ValueDate_64>
-				<Tenor_541>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/tenor"/></Tenor_541>
+				<BaseCcy tag="55">
+					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/fxRate/baseCurrency"/></BaseCcy>
+				<TermCcy tag="120">
+					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/fxRate/variableCurrency"/></TermCcy>
+				<Dealt tag="15">
+					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/dealtCurrency"/></Dealt>
+				<BaseAmt tag="32">
+					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/baseCurrencyAmount"/></BaseAmt>
+				<TermAmt tag="119">
+					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/termCurrencyAmount"/></TermAmt>
+				<ValueDate tag="64">
+					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/valueDate"/></ValueDate>
+				<Tenor tag="541">
+					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/tenor"/></Tenor>
 
-				<AllInRate_31>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/fxRate/rate"/></AllInRate_31>
-				<SpotRate_194>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/fxRate/spotRate"/></SpotRate_194>
-				<FwdPoints_195>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/fxRate/forwardPoints"/></FwdPoints_195>
+				<AllInRate tag="31">
+					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/fxRate/rate"/></AllInRate>
+				<SpotRate tag="194">
+					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/fxRate/spotRate"/></SpotRate>
+				<FwdPoints tag="195">
+					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/fxRate/forwardPoints"/></FwdPoints>
 
-				<MidRate_631>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/midRate/rate"/></MidRate_631>
+				<MidRate tag="631">
+					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/midRate/rate"/></MidRate>
 
 
 				<!-- Party organizations -->
-				<OrgID_57>
-					<xsl:value-of select="/workflowMessage/to/shortName"/></OrgID_57>
-				<OrgLE_128>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/cptyTrade/legalEntity"/></OrgLE_128>
-				<OrgUser_129>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/cptyTrade/legalEntityUser"/></OrgUser_129>
+				<OrgID tag="57">
+					<xsl:value-of select="/workflowMessage/to/shortName"/></OrgID>
+				<OrgLE tag="128">
+					<xsl:value-of select="/workflowMessage/fxSingleLeg/cptyTrade/legalEntity"/></OrgLE>
+				<OrgUser tag="129">
+					<xsl:value-of select="/workflowMessage/fxSingleLeg/cptyTrade/legalEntityUser"/></OrgUser>
 
 
 				<xsl:choose>
 					<xsl:when test="workflowMessage/parameter[3] = 'Maker'">
-						<CptyID_115>
-							<xsl:value-of select="substring(/workflowMessage/fxSingleLeg/counterpartyA/namespace,6)"/></CptyID_115></xsl:when>
+						<CptyID tag="115">
+							<xsl:value-of select="substring(/workflowMessage/fxSingleLeg/counterpartyA/namespace,6)"/></CptyID></xsl:when>
 					<xsl:otherwise>
-						<CptyID_115>
-							<xsl:value-of select="substring(/workflowMessage/fxSingleLeg/counterpartyB/namespace,6)"/></CptyID_115></xsl:otherwise>
+						<CptyID tag="115">
+							<xsl:value-of select="substring(/workflowMessage/fxSingleLeg/counterpartyB/namespace,6)"/></CptyID></xsl:otherwise>
 				</xsl:choose>
-				<CptyLE_116>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/cptyTrade/tradingParty"/></CptyLE_116>
-				<CptyUser_117>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/cptyTrade/tradingPartyUser"/></CptyUser_117>
+				<CptyLE tag="116">
+					<xsl:value-of select="/workflowMessage/fxSingleLeg/cptyTrade/tradingParty"/></CptyLE>
+				<CptyUser tag="117">
+					<xsl:value-of select="/workflowMessage/fxSingleLeg/cptyTrade/tradingPartyUser"/></CptyUser>
 
-				<CoveredTradeID_7602>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/cptyTrade/coveredTrade"/></CoveredTradeID_7602>
-				<CoverTradesID_7601>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/cptyTrade/coverTrade"/></CoverTradesID_7601>
+				<CoveredTradeID tag="7602">
+					<xsl:value-of select="/workflowMessage/fxSingleLeg/cptyTrade/coveredTrade"/></CoveredTradeID>
+				<CoverTradesID tag="7601">
+					<xsl:value-of select="/workflowMessage/fxSingleLeg/cptyTrade/coverTrade"/></CoverTradesID>
 
-				<UTI_9380>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/UTI"/></UTI_9380>
-				<UPI_9381>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/@UPI"/></UPI_9381>
+				<UTI tag="9380">
+					<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/UTI"/></UTI>
+				<UPI tag="9381">
+					<xsl:value-of select="/workflowMessage/fxSingleLeg/@UPI"/></UPI>
 
 			</xsl:if>
 
 			<!-- if the deal is a FXSpotFwd or a FXFwdFwd, the data is in the <fxSwap> node and there are 2 legs -->
 			<xsl:if test="workflowMessage/parameter[1] = 'FXSpotFwd' or workflowMessage/parameter[1] = 'FXFwdFwd'">
 
-				<OrderID_11>
-					<xsl:value-of select="workflowMessage/fxSwap/@orderId"/></OrderID_11>
-				<WorkflowChannel_578>
-					<xsl:value-of select="/workflowMessage/fxSwap/channel"/></WorkflowChannel_578>
-				<TradeExecTimeStamp_60>
-					<xsl:value-of select="substring(/workflowMessage/fxSwap/entryDateTime,0,20)"/></TradeExecTimeStamp_60>
-				<TradeDate_75>
-					<xsl:value-of select="/workflowMessage/fxSwap/tradeDate"/></TradeDate_75>
-				<Role_7549>
-					<xsl:value-of select="workflowMessage/parameter[3]"/></Role_7549>
+				<OrderID tag="11">
+					<xsl:value-of select="workflowMessage/fxSwap/@orderId"/></OrderID>
+				<WorkflowChannel tag="578">
+					<xsl:value-of select="/workflowMessage/fxSwap/channel"/></WorkflowChannel>
+				<TradeExecTimeStamp tag="60">
+					<xsl:value-of select="substring(/workflowMessage/fxSwap/entryDateTime,0,20)"/></TradeExecTimeStamp>
+				<TradeDate tag="75">
+					<xsl:value-of select="/workflowMessage/fxSwap/tradeDate"/></TradeDate>
+				<Role tag="7549">
+					<xsl:value-of select="workflowMessage/parameter[3]"/></Role>
 				<xsl:choose>
 					<xsl:when test="/workflowMessage/fxSwap/nearLeg/fxPayment/legalEntityBuysBase = 'true'" >
-						<Side_54>1</Side_54></xsl:when>
+						<Side tag="54">1</Side></xsl:when>
 					<xsl:otherwise>
-						<Side_54>2</Side_54></xsl:otherwise>
+						<Side tag="54">2</Side></xsl:otherwise>
 				</xsl:choose>
 
-				<BaseCcy_55>
-					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/fxRate/baseCurrency"/></BaseCcy_55>
-				<TermCcy_120>
-					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/fxRate/variableCurrency"/></TermCcy_120>
+				<BaseCcy tag="55">
+					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/fxRate/baseCurrency"/></BaseCcy>
+				<TermCcy tag="120">
+					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/fxRate/variableCurrency"/></TermCcy>
 
-				<NearDealt_15>
-					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/dealtCurrency"/></NearDealt_15>
+				<NearDealt tag="15">
+					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/dealtCurrency"/></NearDealt>
 
-				<NearBaseAmt_32>
-					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/baseCurrencyAmount"/></NearBaseAmt_32>
-				<NearTermAmt_120>
-					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/termCurrencyAmount"/></NearTermAmt_120>
-				<NearValueDate_64>
-					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/valueDate"/></NearValueDate_64>
-				<NearTenor_541>
-					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/tenor"/></NearTenor_541>
+				<NearBaseAmt tag="32">
+					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/baseCurrencyAmount"/></NearBaseAmt>
+				<NearTermAmt tag="120">
+					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/termCurrencyAmount"/></NearTermAmt>
+				<NearValueDate tag="64">
+					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/valueDate"/></NearValueDate>
+				<NearTenor tag="541">
+					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/tenor"/></NearTenor>
 
-				<SpotRate_194>
-					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/fxRate/spotRate"/></SpotRate_194>
+				<SpotRate tag="194">
+					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/fxRate/spotRate"/></SpotRate>
 
-				<NearFwdPoints_195>
-					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/fxRate/forwardPoints"/></NearFwdPoints_195>
-				<NearAllInRate_31>
-					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/fxRate/rate"/></NearAllInRate_31>
+				<NearFwdPoints tag="195">
+					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/fxRate/forwardPoints"/></NearFwdPoints>
+				<NearAllInRate tag="31">
+					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/fxRate/rate"/></NearAllInRate>
 
-				<NearMidRateSpot_629>
-					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/midRate/spotRate"/></NearMidRateSpot_629>
-				<NearMidRateFwdPoints_630>
-					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/midRate/forwardPoints"/></NearMidRateFwdPoints_630>
-				<NearMidAllInRate_631>
-					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/midRate/rate"/></NearMidAllInRate_631>
+				<NearMidRateSpot tag="629">
+					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/midRate/spotRate"/></NearMidRateSpot>
+				<NearMidRateFwdPoints tag="630">
+					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/midRate/forwardPoints"/></NearMidRateFwdPoints>
+				<NearMidAllInRate tag="631">
+					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/midRate/rate"/></NearMidAllInRate>
 
 
-				<FarBaseAmt_192>
-					<xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/baseCurrencyAmount"/></FarBaseAmt_192>
-				<FarTermAmt_191>
-					<xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/termCurrencyAmount"/></FarTermAmt_191>
-				<FarValueDate_193>
-					<xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/valueDate"/></FarValueDate_193>
-				<FarTenor_542>
-					<xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/tenor"/></FarTenor_542>
-				<FarFwdPoints_641>
-					<xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/fxRate/forwardPoints"/></FarFwdPoints_641>
-				<FarAllInRate_7541>
-					<xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/fxRate/rate"/></FarAllInRate_7541>
+				<FarBaseAmt tag="192">
+					<xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/baseCurrencyAmount"/></FarBaseAmt>
+				<FarTermAmt tag="191">
+					<xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/termCurrencyAmount"/></FarTermAmt>
+				<FarValueDate tag="193">
+					<xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/valueDate"/></FarValueDate>
+				<FarTenor tag="542">
+					<xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/tenor"/></FarTenor>
+				<FarFwdPoints tag="641">
+					<xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/fxRate/forwardPoints"/></FarFwdPoints>
+				<FarAllInRate tag="7541">
+					<xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/fxRate/rate"/></FarAllInRate>
 
-				<FarMidRateSpot_7629>
-					<xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/midRate/spotRate"/></FarMidRateSpot_7629>
-				<FarMidRateFwdPoints_7630>
-					<xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/midRate/forwardPoints"/></FarMidRateFwdPoints_7630>
-				<FarMidAllInRate_7631>
-					<xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/midRate/rate"/></FarMidAllInRate_7631>
+				<FarMidRateSpot tag="7629">
+					<xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/midRate/spotRate"/></FarMidRateSpot>
+				<FarMidRateFwdPoints tag="7630">
+					<xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/midRate/forwardPoints"/></FarMidRateFwdPoints>
+				<FarMidAllInRate tag="7631">
+					<xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/midRate/rate"/></FarMidAllInRate>
 
 				<!-- Party organizations -->
-				<OrgID_57>
-					<xsl:value-of select="/workflowMessage/to/shortName"/></OrgID_57>
-				<OrgLE_128>
-					<xsl:value-of select="/workflowMessage/fxSwap/cptyTrade/legalEntity"/></OrgLE_128>
-				<OrgUser_129>
-					<xsl:value-of select="/workflowMessage/fxSwap/cptyTrade/legalEntityUser"/></OrgUser_129>
+				<OrgID tag="57">
+					<xsl:value-of select="/workflowMessage/to/shortName"/></OrgID>
+				<OrgLE tag="128">
+					<xsl:value-of select="/workflowMessage/fxSwap/cptyTrade/legalEntity"/></OrgLE>
+				<OrgUser tag="129">
+					<xsl:value-of select="/workflowMessage/fxSwap/cptyTrade/legalEntityUser"/></OrgUser>
 
 				<xsl:choose>
 					<xsl:when test="workflowMessage/parameter[3] = 'Maker'">
-						<CptyID_115>
-							<xsl:value-of select="substring(/workflowMessage/fxSwap/counterpartyA/namespace,6)"/></CptyID_115></xsl:when>
+						<CptyID tag="115">
+							<xsl:value-of select="substring(/workflowMessage/fxSwap/counterpartyA/namespace,6)"/></CptyID></xsl:when>
 					<xsl:otherwise>
-						<CptyID_115>
-							<xsl:value-of select="substring(/workflowMessage/fxSwap/counterpartyB/namespace,6)"/></CptyID_115></xsl:otherwise>
+						<CptyID tag="115">
+							<xsl:value-of select="substring(/workflowMessage/fxSwap/counterpartyB/namespace,6)"/></CptyID></xsl:otherwise>
 				</xsl:choose>
-				<CptyLE_116>
-					<xsl:value-of select="/workflowMessage/fxSwap/cptyTrade/tradingParty"/></CptyLE_116>
-				<CptyUser_117>
-					<xsl:value-of select="/workflowMessage/fxSwap/cptyTrade/tradingPartyUser"/></CptyUser_117>
+				<CptyLE tag="116">
+					<xsl:value-of select="/workflowMessage/fxSwap/cptyTrade/tradingParty"/></CptyLE>
+				<CptyUser tag="117">
+					<xsl:value-of select="/workflowMessage/fxSwap/cptyTrade/tradingPartyUser"/></CptyUser>
 
-				<CoveredTradeID_7602>
-					<xsl:value-of select="/workflowMessage/fxSwap/cptyTrade/coveredTrade"/></CoveredTradeID_7602>
-				<CoverTradesID_7601>
-					<xsl:value-of select="/workflowMessage/fxSwap/cptyTrade/coverTrade"/></CoverTradesID_7601>
+				<CoveredTradeID tag="7602">
+					<xsl:value-of select="/workflowMessage/fxSwap/cptyTrade/coveredTrade"/></CoveredTradeID>
+				<CoverTradesID tag="7601">
+					<xsl:value-of select="/workflowMessage/fxSwap/cptyTrade/coverTrade"/></CoverTradesID>
 
-				<NearUTI_9380>
-					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/UTI"/></NearUTI_9380>
-				<FarUTI_9381>
-					<xsl:value-of select="/workflowMessage/fxSwap/farLeg/UTI"/></FarUTI_9381>
-				<NearUSI_9376>
-					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/USI"/></NearUSI_9376>
-				<FarUSI_9377>
-					<xsl:value-of select="/workflowMessage/fxSwap/farLeg/USI"/></FarUSI_9377>
-				<UPI_9381>
-					<xsl:value-of select="/workflowMessage/fxSwap/@UPI"/></UPI_9381>
-
+				<NearUTI tag="9380">
+					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/UTI"/></NearUTI>
+				<FarUTI tag="9381">
+					<xsl:value-of select="/workflowMessage/fxSwap/farLeg/UTI"/></FarUTI>
+				<NearUSI tag="9376">
+					<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/USI"/></NearUSI>
+				<FarUSI tag="9377">
+					<xsl:value-of select="/workflowMessage/fxSwap/farLeg/USI"/></FarUSI>
+				<UPI tag="9381">
+					<xsl:value-of select="/workflowMessage/fxSwap/@UPI"/></UPI>
 			</xsl:if>
-
 
 		</STPMessage>
 

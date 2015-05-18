@@ -26,7 +26,7 @@
             <td><xsl:value-of select="OrderID"/></td>
           </tr>
           <tr>
-            <td>TradeExecTimeStamp</td>
+            <td>TimeStamp</td>
             <td><xsl:value-of select="TradeExecTimeStamp"/></td>
           </tr>
           <tr>
@@ -34,12 +34,12 @@
             <td><xsl:value-of select="TradeDate"/></td>
           </tr>
           <tr>
-            <td>BuySell</td>
+            <td>Side</td>
 
 
 
           <xsl:choose>
-            <xsl:when test="BuySell = 'Buy'">
+            <xsl:when test="Side = 'Buy'">
               <td>Sell</td></xsl:when>
             <xsl:otherwise>
               <td>Buy</td></xsl:otherwise>

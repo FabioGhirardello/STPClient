@@ -15,22 +15,28 @@ public class WL {
     private Email email;
     private String cptyId;
     private String stylesheet;
-    private String subject;
+    private String[] subjectFields;
+    private String[] sideIndicator;
+    private String image;
 
     private Properties prop;
 
-    public WL(Email email, String cptyId, String stylesheet, String subject, String wlClientsEmails) {
+    public WL(Email email, String cptyId, String stylesheet, String subjectFields, String sideIndicator,
+              String wlClientsEmails, String image) {
         this.email = email;
         this.cptyId = cptyId;
         this.stylesheet = stylesheet;
-        this.subject = subject;
+        this.subjectFields = subjectFields.split(",");
+        this.sideIndicator = sideIndicator.split(",");
+        this.image = image;
 
-        this.readWLClientsProperties(wlClientsEmails);
+        this.readWLClients(wlClientsEmails);
     }
 
     public void sendEmailToWLClient(String tradeId, Document doc) {
         // get the email address from the file
-        email.send(tradeId, doc, prop.getProperty(this.getCptyID(doc), ""), this.stylesheet, this.subject);
+        email.send(tradeId, doc, prop.getProperty(this.getCptyID(doc), ""), this.stylesheet,
+                getSubject(doc), this.image);
     }
 
 
@@ -58,7 +64,7 @@ public class WL {
     }
 
 
-    private void readWLClientsProperties(String wlClientsEmails) {
+    private void readWLClients(String wlClientsEmails) {
         InputStream input = null;
         try {
             prop = new Properties();
@@ -80,6 +86,44 @@ public class WL {
                 }
             }
         }
+    }
+
+    private String getSubject(Document doc) {
+        String subject = "";
+        try {
+            NodeList nodeList = doc.getDocumentElement().getChildNodes();
+
+            for (String subjectField : this.subjectFields) {
+                if (subjectField.charAt(0) == '<') {
+                    String field = subjectField.replace("<", "").replace(">", "");
+
+                    for (int i = 0; i < nodeList.getLength(); i++) {
+                        if (nodeList.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                            Element element = (Element) nodeList.item(i);
+                            if (element.getNodeName().equalsIgnoreCase(field)) {
+                                if (field.equalsIgnoreCase(this.sideIndicator[0])) {
+                                    if (element.getTextContent().equalsIgnoreCase(this.sideIndicator[1])) {
+                                        subject += this.sideIndicator[2];
+                                    } else {
+                                        subject += this.sideIndicator[1];
+                                    }
+                                } else {
+                                    subject += element.getTextContent();
+                                }
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    subject += subjectField;
+                }
+            }
+        }
+        catch (Exception e) {
+            log.error("[EMA004] - Unable to build the email subject");
+            subject = "";
+        }
+        return subject;
     }
 
 }

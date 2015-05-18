@@ -1,9 +1,0 @@
-CREATE TABLE WLCLIENTS (
- ClientName TEXT PRIMARY KEY,
- EmailAddress TEXT
- );
-
-
-
-
-

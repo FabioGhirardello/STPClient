@@ -28,9 +28,9 @@
 			<xsl:value-of select="workflowMessage/parameter[3]"/></Role>
 		<xsl:choose>
 			<xsl:when test="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/legalEntityBuysBase = 'true'">
-				<BuySell>Buy</BuySell></xsl:when>
+				<Side>Buy</Side></xsl:when>
 			<xsl:otherwise>
-				<BuySell>Sell</BuySell></xsl:otherwise>
+				<Side>Sell</Side></xsl:otherwise>
 		</xsl:choose>
 
 		<BaseCcy>
@@ -140,9 +140,9 @@
 			<xsl:value-of select="workflowMessage/parameter[3]"/></Role>
 		<xsl:choose>
 			<xsl:when test="/workflowMessage/fxSwap/nearLeg/fxPayment/legalEntityBuysBase = 'true'" >
-				<BuySell>Buy</BuySell></xsl:when>
+				<Side>Buy</Side></xsl:when>
 			<xsl:otherwise>
-				<BuySell>Sell</BuySell></xsl:otherwise>
+				<Side>Sell</Side></xsl:otherwise>
 		</xsl:choose>
 
 		<BaseCcy>

@@ -7,27 +7,27 @@ import java.util.Date;
 
 public class WriteFile {
     private static Logger log = Logger.getLogger("STPClient");
-    private String PATH;
-    private String DATE_FORMAT;
-    private String COUNTER;
-    private String NAME;
+    private String path;
+    private String dateFormat;
+    private String counter;
+    private String[] name;
 
     public WriteFile(String fileDateFormat, String fileCounter, String fileName, String filePath) {
-        this.DATE_FORMAT = fileDateFormat;
-        this.COUNTER = fileCounter;
-        this.PATH = filePath;
-        this.NAME = fileName;
+        this.dateFormat = fileDateFormat;
+        this.counter = fileCounter;
+        this.path = filePath;
+        this.name = fileName.split(",");
     }
 
     public void writeToFile(String tradeId, String message) {
         Date dateNow = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat(this.DATE_FORMAT);
+        SimpleDateFormat sdf = new SimpleDateFormat(this.dateFormat);
         SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
         int counter = 0;
 
-        if (!this.COUNTER.equalsIgnoreCase("")) {
+        if (!this.counter.equalsIgnoreCase("")) {
             // Open the Counter file
-            String fileCounterName = this.COUNTER + "." + sdf2.format(dateNow);
+            String fileCounterName = this.counter + "." + sdf2.format(dateNow);
             try {
                 File f = new File(fileCounterName);
                 if (f.exists() && !f.isDirectory()) {
@@ -52,14 +52,13 @@ public class WriteFile {
 
         // Name
         String fileName = "";
-        String[] fields = this.NAME.split(",");
         try {
-            for (String field : fields) {
+            for (String field : this.name) {
                 if (field.charAt(0) == '<') {
                     String n = field.replace("<", "").replace(">", "");
 
                     switch (n.toUpperCase()) {
-                        case "COUNTER":
+                        case "counter":
                             fileName += counter;
                             break;
                         case "TRADEID":
@@ -81,7 +80,7 @@ public class WriteFile {
             log.error("[ERR005] ", e);
         }
 
-        fileName = this.PATH + "/" + fileName;
+        fileName = this.path + "/" + fileName;
 
         try {
             PrintWriter out = new PrintWriter(fileName);

@@ -26,20 +26,20 @@ public class Email
     public static Logger log = Logger.getLogger("STPClient");
     private Session session;
 
-    private String FROM;
-    private String TO;
-    private String STYLESHEET;
-    private String SUBJECT;
-    private String IMAGE;
+    private String from;
+    private String to;
+    private String stylesheet;
+    private String[] subjectFields;
+    private String image;
 
 
     public Email(String from, String to, String host, String port, String username,
-                    String password, String auth, String stylesheet, String subject, String image) {
-        FROM = from;
-        TO = to;
-        STYLESHEET = stylesheet;
-        SUBJECT = subject;
-        IMAGE = image;
+                    String password, String auth, String stylesheet, String subjectFields, String image) {
+        this.from = from;
+        this.to = to;
+        this.stylesheet = stylesheet;
+        this.subjectFields = subjectFields.split(",");
+        this.image = image;
 
         try {
             // Get system properties
@@ -61,23 +61,22 @@ public class Email
 
 
     public void send (String tradeID, Document doc) {
-        this.send(tradeID, doc, this.TO, this.STYLESHEET, this.SUBJECT);
+        this.send(tradeID, doc, this.to, this.stylesheet, getSubject(doc), this.image);
     }
 
-    public void send (String tradeID, Document doc, String to, String stylesheet, String subjectFormat) {
+    public void send (String tradeID, Document doc, String to, String stylesheet, String subject, String image) {
         if (!to.equalsIgnoreCase("")) {
             try {
                 // Create a default MimeMessage object.
                 MimeMessage message = new MimeMessage(this.session);
 
                 // Set From: header field of the header.
-                message.setFrom(new InternetAddress(this.FROM));
+                message.setFrom(new InternetAddress(this.from));
 
                 // Set To: header field of the header.
                 message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
 
                 // Set Subject: header field
-                String subject = getSubject(doc, subjectFormat);
                 if (subject.equalsIgnoreCase("")) {
                     message.setSubject(tradeID);
                 }
@@ -91,24 +90,24 @@ public class Email
                     StreamSource isXsl = new StreamSource(new File(stylesheet).getAbsoluteFile());
                     String res = XslTransform(new DOMSource(doc), isXsl);
                     // This mail has 2 part, the BODY and the embedded image
-                    MimeMultipart multipart = new MimeMultipart("related");
+                    MimeMultipart mimeMultipart = new MimeMultipart("related");
                     // first part (the html)
                     BodyPart messageBodyPart = new MimeBodyPart();
                     messageBodyPart.setContent(res, "text/html");
-                    multipart.addBodyPart(messageBodyPart);
+                    mimeMultipart.addBodyPart(messageBodyPart);
 
                     // second part (the image)
-                    if (!this.IMAGE.equalsIgnoreCase("")) {
+                    if (!image.equalsIgnoreCase("")) {
                         messageBodyPart = new MimeBodyPart();
-                        DataSource fds = new FileDataSource(this.IMAGE);
+                        DataSource fds = new FileDataSource(image);
                         messageBodyPart.setDataHandler(new DataHandler(fds));
                         messageBodyPart.setHeader("Content-ID", "<image>");
-                        // add image to the multipart
-                        multipart.addBodyPart(messageBodyPart);
+                        // add image to the mimeMultiPart
+                        mimeMultipart.addBodyPart(messageBodyPart);
                     }
 
                     // put everything together
-                    message.setContent(multipart);
+                    message.setContent(mimeMultipart);
                 } else {
                     message.setText(STPClient.docToString(doc).replaceAll("><", ">\n<"));
                 }
@@ -135,50 +134,39 @@ public class Email
             transformer.transform(xml, outputResult);
             outputString = outputWriter.toString();
         }
-        catch (TransformerConfigurationException e)  {
-            e.printStackTrace();
-        }
-        catch (TransformerFactoryConfigurationError e) {
-            e.printStackTrace();
-        }
-        catch (TransformerException e)  {
+        catch (TransformerFactoryConfigurationError | TransformerException e)  {
             e.printStackTrace();
         }
         return outputString ;
     }
 
-    private String getSubject(Document doc, String subjectFormat) {
-        String t = "";
-        String[] fields = subjectFormat.split(",");
-
+    private String getSubject(Document doc) {
+        String subject = "";
         try {
-            Element docEle = doc.getDocumentElement();
-            NodeList nl = docEle.getChildNodes();
+            NodeList nodeList = doc.getDocumentElement().getChildNodes();
+            for (String f : this.subjectFields) {
+                if (f.charAt(0) == '<') {
+                    String field = f.replace("<", "").replace(">", "");
 
-            for (int j = 0; j < fields.length; j++) {
-                if (fields[j].charAt(0) == '<') {
-                    String n = fields[j].replace("<", "").replace(">","");
-
-                    for (int i = 0; i < nl.getLength(); i++) {
-                        if (nl.item(i).getNodeType() == Node.ELEMENT_NODE) {
-                            Element el = (Element) nl.item(i);
-                            if (el.getNodeName().equalsIgnoreCase(n)) {
-                                t += el.getTextContent();
+                    for (int i = 0; i < nodeList.getLength(); i++) {
+                        if (nodeList.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                            Element element = (Element) nodeList.item(i);
+                            if (element.getNodeName().equalsIgnoreCase(field)) {
+                                subject += element.getTextContent();
                                 break;
                             }
                         }
                     }
-                }
-                else {
-                    t += fields[j];
+                } else {
+                    subject += f;
                 }
             }
         }
         catch (Exception e) {
             log.error("[EMA004] - Unable to build the email subject");
-            t = "";
+            subject = "";
         }
-        return t;
+        return subject;
     }
 }
 

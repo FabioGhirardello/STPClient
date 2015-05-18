@@ -1,7 +1,5 @@
-import com.integral.stpclient.STPDownloadClientC;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
-
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -18,7 +16,7 @@ import java.util.Properties;
 public class STPClient {
     private static Logger log = Logger.getLogger("STPClient");
     private static Logger logTrade = Logger.getLogger("MyTrade");
-    private static String VERSION = " 2.3 - 2015-05-14";
+    private static String VERSION = " 2.4 - 2015-05-18";
 
     private static DB db;
     private static Email email;
@@ -64,7 +62,9 @@ public class STPClient {
     private static String WL_CPTY_ID;
     private static String WL_STYLESHEET;
     private static String WL_SUBJECT;
+    private static String WL_SIDE_INDICATOR;
     private static String WL_CLIENTS_EMAILS;
+    private static String WL_IMAGE;
 
     // Save To File variables
     private static String FILE_SWITCH;
@@ -105,7 +105,7 @@ public class STPClient {
 
         //check if there's a WL email setup
         if (WL_SWITCH.equalsIgnoreCase("ON") && EMAIL_SWITCH.equalsIgnoreCase("ON") ) {
-            wl = new WL(email, WL_CPTY_ID, WL_STYLESHEET, WL_SUBJECT, WL_CLIENTS_EMAILS);
+            wl = new WL(email, WL_CPTY_ID, WL_STYLESHEET, WL_SUBJECT, WL_SIDE_INDICATOR, WL_CLIENTS_EMAILS, WL_IMAGE);
         }
 
         // check if deals need to be saved to an individual file
@@ -176,7 +176,9 @@ public class STPClient {
             WL_CPTY_ID = prop.getProperty("WL.CPTY_ID");
             WL_STYLESHEET = prop.getProperty("WL.STYLESHEET","");
             WL_SUBJECT = prop.getProperty("WL.SUBJECT","");
+            WL_SIDE_INDICATOR = prop.getProperty("WL.SIDE_INDICATOR","");
             WL_CLIENTS_EMAILS = prop.getProperty("WL.CLIENTS_EMAILS");
+            WL_IMAGE = prop.getProperty("WL.IMAGE", "");
 
             // get Save to File properties
             FILE_SWITCH = prop.getProperty("FILE.SWITCH", "OFF");
