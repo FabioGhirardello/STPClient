@@ -1,7 +1,7 @@
 # STP CLIENT
 
-Version: 2.4
-Last update: 2015-05-18
+Version: 2.5
+Last update: 2015-06-03
 
 ### Java Dependencies:
 
@@ -10,7 +10,6 @@ If you plan to insert deals into a database, ensure the JRE and database have th
 
 Main jars: 
 - STPClient.jar,
-- STPConnector.jar,
 - com.ibm.mq.jar,
 - com.ibm.mqjms.jar,
 - jbossall-client.jar,
