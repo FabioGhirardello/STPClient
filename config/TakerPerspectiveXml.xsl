@@ -53,6 +53,28 @@
 		<MidRate>
 			<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/midRate/rate"/></MidRate>
 
+        <!-- Market Rate -->
+        <Mkt_AllInRate>
+            <xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/fxCoverRate/rate"/></Mkt_AllInRate>
+        <Mkt_SpotRate>
+            <xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/fxCoverRate/baseSpotRate"/></Mkt_SpotRate>
+        <Mkt_FwdPoints>
+            <xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/fxCoverRate/baseForwardPoints"/></Mkt_FwdPoints>
+
+
+		<!-- Spreads -->
+		<Sprd_PM_Spot>
+			<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/fxCoverRate/spread[@name='PMSpotSprd']"/></Sprd_PM_Spot>
+		<Sprd_PM_Fwd>
+			<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/fxCoverRate/spread[@name='PMFwdSprd']"/></Sprd_PM_Fwd>
+		<Sprd_PP_Spot>
+			<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/fxCoverRate/spread[@name='PPSpotSprd']"/></Sprd_PP_Spot>
+		<Sprd_PP_Fwd>
+			<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/fxCoverRate/spread[@name='PPFwdSprd']"/></Sprd_PP_Fwd>
+		<Sprd_PP_Total>
+			<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/fxPayment/fxCoverRate/spread[@name='PPCustSprd']"/></Sprd_PP_Total>
+
+
 		<!-- Party organizations -->
 		<xsl:choose>
 			<xsl:when test="workflowMessage/parameter[3] = 'Maker'">
@@ -196,6 +218,28 @@
 			<xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/midRate/forwardPoints"/></FarMidRateFwdPoints>
 		<FarMidAllInRate>
 			<xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/midRate/rate"/></FarMidAllInRate>
+
+        <!-- Far Market Rate -->
+        <FarMkt_AllInRate>
+            <xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/fxCoverRate/rate"/></FarMkt_AllInRate>
+        <FarMkt_SpotRate>
+            <xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/fxCoverRate/baseSpotRate"/></FarMkt_SpotRate>
+        <FarMkt_FwdPoints>
+            <xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/fxCoverRate/baseForwardPoints"/></FarMkt_FwdPoints>
+
+        <!-- Spreads -->
+        <Sprd_PM_FarSpot>
+            <xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/fxCoverRate/spread[@name='PMSpotSprd']"/></Sprd_PM_FarSpot>
+        <!-- market convention is to put the spread on the far forward points only
+        <Sprd_PP_Spot>
+            <xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/fxCoverRate/spread[@name='PPSpotSprd']"/></Sprd_PP_Spot>
+        <Sprd_PP_Near>
+            <xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/fxCoverRate/spread[@name='PPNearSprd']"/></Sprd_PP_Near>
+        -->
+        <Sprd_PP_Far>
+            <xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/fxCoverRate/spread[@name='PPFarSprd']"/></Sprd_PP_Far>
+        <Sprd_PP_Total>
+            <xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/fxCoverRate/spread[@name='PPCustSprd']"/></Sprd_PP_Total>
 
 
 		<!-- Party organizations -->

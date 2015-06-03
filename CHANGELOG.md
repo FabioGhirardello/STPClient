@@ -1,12 +1,6 @@
-### 2.3 (2015-05-14)
+### 2.5 (2015-06-03)
 
-- Recompiled *STPConnector.jar* to return a Document object instead of String, thus the stylesheet should return a XML file.
-- Renamed *FabSTPClient* to *STPClient*. This is important to launch the app.
-- Stylesheet files meant to return plain text should be enclosed in a *\<root\>* node; this is so that the app recognizes 
-these Document objects are actually plain text files. An example is *csv.xsl*.
-- Renamed properties *EMAIL.TITLE, WL.TITLE, FILE.TITLE* to *EMAIL.SUBJECT, WL.SUBJECT, FILE.NAME*.
-- Added class *WriteFile* to separate the function to save the message to an individual file from class STPClient.
-
+- Incorporated STPConnector.jar into STPClient.jar.
 
 ### 2.4 (2015-05-18)
 
@@ -23,5 +17,12 @@ For example, to send *\<TradeId\>* as tag #17, use *\<TradeId tag="17"\>*.
     - *FabSTPClient* --> *STPClient* (to grab all application logging).
 - STPClient.jar now features the version in the filename.
 
-    
-    
+
+### 2.3 (2015-05-14)
+
+- Recompiled *STPConnector.jar* to return a Document object instead of String, thus the stylesheet should return a XML file.
+- Renamed *FabSTPClient* to *STPClient*. This is important to launch the app.
+- Stylesheet files meant to return plain text should be enclosed in a *\<root\>* node; this is so that the app recognizes 
+these Document objects are actually plain text files. An example is *csv.xsl*.
+- Renamed properties *EMAIL.TITLE, WL.TITLE, FILE.TITLE* to *EMAIL.SUBJECT, WL.SUBJECT, FILE.NAME*.
+- Added class *WriteFile* to separate the function to save the message to an individual file from class STPClient.

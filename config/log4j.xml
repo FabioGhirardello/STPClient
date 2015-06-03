@@ -38,21 +38,21 @@
 	<!-- IBMMQClient logs the messages from the STPConnector -->
 	<category name="IBMMQClient" additivity="false">
 		<priority value="INFO" />
-		<appender-ref ref="DEV_NULL" />
+		<appender-ref ref="STD_OUT" />
 		<appender-ref ref="APP_LOG" />
 	</category>
 
 	<category name="STPClient" additivity="false">
 		<priority value="INFO" />
-		<appender-ref ref="APP_LOG" />
 		<appender-ref ref="STD_OUT" />
+		<appender-ref ref="APP_LOG" />
 	</category>
 
 	<!-- MyTrade just logs the STP messages -->
 	<category name="MyTrade" additivity="false">
 		<priority value="INFO" />
-		<appender-ref ref="APP_LOG" />
 		<appender-ref ref="STD_OUT" />
+		<appender-ref ref="APP_LOG" />
 	</category>
 
 

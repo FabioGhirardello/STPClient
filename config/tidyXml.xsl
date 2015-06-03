@@ -122,6 +122,8 @@
 			<xsl:value-of select="/workflowMessage/fxSingleLeg/fxLeg/UTI"/></UTI>
 		<UPI>
 			<xsl:value-of select="/workflowMessage/fxSingleLeg/@UPI"/></UPI>
+		<OrderNotes>
+			<xsl:value-of select="/workflowMessage/fxSingleLeg/orderNotes"/></OrderNotes>
 
 	</xsl:if>
 
@@ -282,6 +284,9 @@
 			<xsl:value-of select="/workflowMessage/fxSwap/farLeg/USI"/></FarUSI>
 		<UPI>
 			<xsl:value-of select="/workflowMessage/fxSwap/@UPI"/></UPI>
+
+		<OrderNotes>
+			<xsl:value-of select="/workflowMessage/fxSwap/orderNotes"/></OrderNotes>
 
 	</xsl:if>
 

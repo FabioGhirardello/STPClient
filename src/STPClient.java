@@ -1,14 +1,12 @@
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
+
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
+import javax.xml.transform.stream.StreamSource;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
@@ -16,7 +14,9 @@ import java.util.Properties;
 public class STPClient {
     private static Logger log = Logger.getLogger("STPClient");
     private static Logger logTrade = Logger.getLogger("MyTrade");
-    private static String VERSION = " 2.4 - 2015-05-18";
+    private static final String VERSION = "2.5";
+    private static final String COMPILE_DATE = "2015-06-23";
+    private static final String JDK_VERSION = "1.7.0_51";
 
     private static DB db;
     private static Email email;
@@ -34,7 +34,6 @@ public class STPClient {
     private static String STP_CHANNEL;
     private static String STP_USERNAME;
     private static String STP_PASSWORD;
-    private static String STP_CERT_NAME;
     private static String STP_SSL_CIPHER_SUITE;
 
     // DB Properties variables
@@ -78,19 +77,8 @@ public class STPClient {
     private static String QFJ_CONFIG_FILE;
 
 
-    public static void main(String args[])
-    {
-        log.info("STPClient version" + VERSION);
-
-        // print out the config file
-        try {
-            String line = new String(Files.readAllBytes(Paths.get(args[0])));
-            log.info("Reading configuration file " + args[0] + ":\n" + line);
-        } catch (IOException e) {
-            log.error("[ERR001] ", e);
-        }
-
-        readProperties(args[0]);
+    public STPClient(String properties) {
+        readProperties(properties);
 
         // check if there's a db connection setup
         if (DB_SWITCH.equalsIgnoreCase("ON")) {
@@ -119,18 +107,39 @@ public class STPClient {
         }
 
         // launch the STP listener
-        STPDownloadClientC stpConnector = new STPDownloadClientC(STP_STYLESHEET, STP_IP, STP_PORT, STP_QUEUE_MANAGER, STP_QUEUE_NAME,
-                STP_CHANNEL, STP_USERNAME, STP_PASSWORD, STP_CERT_NAME, STP_SSL_CIPHER_SUITE,
-                new STPDownloadClientC.OnMessageReceived() {
+        IBMMQClient ibmmqClient = new IBMMQClient(STP_IP, STP_PORT, STP_QUEUE_MANAGER, STP_QUEUE_NAME,
+                STP_CHANNEL, STP_USERNAME, STP_PASSWORD, STP_SSL_CIPHER_SUITE,
+                new IBMMQClient.OnMessageReceived() {
                     @Override
                     //here 'messageReceived' method-event is implemented
-                    public void messageReceived(String tradeID, Document xmlmessage) {
-                        publish(tradeID, xmlmessage);
+                    public void messageReceived(String tradeID, String finXML) {
+                        publish(tradeID, finXML);
                     }
                 });
+
+        ibmmqClient.login();
     }
 
-    private static void readProperties(String configFile ){
+
+    public static void main(String args[]) {
+        log.info("STPClient version " + VERSION + ". Compiled with JDK version " + JDK_VERSION + " on " + COMPILE_DATE + ".");
+        // print out the config file
+        try {
+            String line = new String(Files.readAllBytes(Paths.get(args[0])));
+            log.info("Reading configuration file " + args[0] + ":\n" + line);
+        } catch (IOException e) {
+            log.error("[ERR001] ", e);
+        }
+
+        STPClient stpClient = new STPClient(args[0]);
+
+        while (true) {
+
+        }
+
+    }
+
+    private void readProperties(String configFile ){
         InputStream input = null;
         try {
             Properties prop = new Properties();
@@ -148,7 +157,7 @@ public class STPClient {
             STP_CHANNEL = prop.getProperty("STP.CHANNEL");
             STP_USERNAME = prop.getProperty("STP.USERNAME");
             STP_PASSWORD = prop.getProperty("STP.PASSWORD");
-            STP_CERT_NAME = prop.getProperty("STP.CERT_NAME");
+            //STP_CERT_NAME = prop.getProperty("STP.CERT_NAME");
             STP_SSL_CIPHER_SUITE = prop.getProperty("STP.SSL_CIPHER_SUITE");
 
             // get the DB properties
@@ -176,7 +185,7 @@ public class STPClient {
             WL_CPTY_ID = prop.getProperty("WL.CPTY_ID");
             WL_STYLESHEET = prop.getProperty("WL.STYLESHEET","");
             WL_SUBJECT = prop.getProperty("WL.SUBJECT","");
-            WL_SIDE_INDICATOR = prop.getProperty("WL.SIDE_INDICATOR","");
+            WL_SIDE_INDICATOR = prop.getProperty("WL.SIDE_INDICATOR"," , , ");
             WL_CLIENTS_EMAILS = prop.getProperty("WL.CLIENTS_EMAILS");
             WL_IMAGE = prop.getProperty("WL.IMAGE", "");
 
@@ -210,7 +219,9 @@ public class STPClient {
     /*
      * This method is called once a new STP message has arrived
      */
-    private static void publish(String tradeID, Document doc) {
+    public void publish(String tradeID, String finXML) {
+        Document doc = XslTransform(finXML);
+
         logTrade.info(docToString(doc));
         if (db != null) {
             db.insert(tradeID, doc);
@@ -229,6 +240,23 @@ public class STPClient {
         }
     }
 
+
+    public Document XslTransform(String finXML) {
+        StreamSource xml = new StreamSource(new StringReader(finXML));
+        StreamSource xsl = new StreamSource(new File(this.STP_STYLESHEET).getAbsoluteFile());
+        Document doc = null;
+        try {
+            TransformerFactory tFactory = TransformerFactory.newInstance();
+            Transformer transformer = tFactory.newTransformer(xsl);
+            DOMResult domResult = new DOMResult();
+            transformer.transform(xml, domResult);
+            doc = (Document)domResult.getNode();
+        }
+        catch (TransformerFactoryConfigurationError | TransformerException e) {
+            e.printStackTrace();
+        }
+        return doc ;
+    }
 
     public static String docToString(Document doc) {
         try {
