@@ -14,8 +14,8 @@ import java.util.Properties;
 public class STPClient {
     private static Logger log = Logger.getLogger("STPClient");
     private static Logger logTrade = Logger.getLogger("MyTrade");
-    private static final String VERSION = "2.5";
-    private static final String COMPILE_DATE = "2015-06-23";
+    private static final String VERSION = "2.6";
+    private static final String COMPILE_DATE = "2015-06-30";
     private static final String JDK_VERSION = "1.7.0_51";
 
     private static DB db;
@@ -134,7 +134,12 @@ public class STPClient {
         STPClient stpClient = new STPClient(args[0]);
 
         while (true) {
+            try {
+                Thread.sleep(Long.MAX_VALUE);
+            }
+            catch (InterruptedException ie){
 
+            }
         }
 
     }

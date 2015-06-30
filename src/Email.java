@@ -8,10 +8,7 @@ import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -115,11 +112,13 @@ public class Email
                 // Send message
                 Transport.send(message);
                 log.info(tradeID + " - E-mail sent to " + to);
-            } catch (MessagingException mex) {
-                log.error("[EMA001] E-mail failed for deal " + tradeID + ": " + mex.getMessage());
-            } catch (Exception e) {
-                log.error("[EMA002] E-mail failed for deal " + tradeID + ": " + e.getMessage());
             }
+ catch (MessagingException mex) {
+                log.error("[EMA001] E-mail failed for deal " + tradeID + ": " + mex.getMessage());
+            }
+            //catch (Exception e) {
+              //  log.error("[EMA002] E-mail failed for deal " + tradeID + ": " + e.getMessage());
+            //}
         }
     }
 

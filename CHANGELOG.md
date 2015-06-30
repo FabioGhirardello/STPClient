@@ -1,3 +1,7 @@
+### 2.6 (2015-06-30)
+
+- Added Thread.sleep() to lower CPU load.
+
 ### 2.5 (2015-06-03)
 
 - Incorporated STPConnector.jar into STPClient.jar.

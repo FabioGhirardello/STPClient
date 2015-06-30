@@ -1,6 +1,6 @@
 # STP CLIENT
 
-Version: 2.5
+Version: 2.6
 Last update: 2015-06-03
 
 ### Java Dependencies:
