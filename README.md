@@ -1,11 +1,11 @@
 # STP CLIENT
 
 Version: 2.6
-Last update: 2015-06-03
+Last update: 2015-06-30
 
 ### Java Dependencies:
 
-The app was compiled with Java 1.7.
+The app was compiled with Java 1.7.0_51.
 If you plan to insert deals into a database, ensure the JRE and database have the same architecture (32/64 bits).
 
 Main jars: 
