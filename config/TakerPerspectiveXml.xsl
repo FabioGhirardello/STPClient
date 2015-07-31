@@ -156,42 +156,42 @@
 		<TermCcy>
 			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/fxRate/variableCurrency"/></TermCcy>
 
-		<NearDealt>
-			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/dealtCurrency"/></NearDealt>
+		<Dealt>
+			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/dealtCurrency"/></Dealt>
 
-		<NearBaseAmt>
-			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/baseCurrencyAmount"/></NearBaseAmt>
-		<NearTermAmt>
-			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/termCurrencyAmount"/></NearTermAmt>
-		<NearValueDate>
-			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/valueDate"/></NearValueDate>
-		<NearTenor>
-			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/tenor"/></NearTenor>
+		<BaseAmt>
+			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/baseCurrencyAmount"/></BaseAmt>
+		<TermAmt>
+			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/termCurrencyAmount"/></TermAmt>
+		<ValueDate>
+			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/valueDate"/></ValueDate>
+		<Tenor>
+			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/tenor"/></Tenor>
 
 		<SpotRate>
 			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/fxRate/spotRate"/></SpotRate>
 
-		<NearSpotDate>
-			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/spotDate"/></NearSpotDate>
-		<NearFwdPoints>
-			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/fxRate/forwardPoints"/></NearFwdPoints>
-		<NearAllInRate>
-			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/fxRate/rate"/></NearAllInRate>
+		<SpotDate>
+			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/spotDate"/></SpotDate>
+		<FwdPoints>
+			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/fxRate/forwardPoints"/></FwdPoints>
+		<AllInRate>
+			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/fxRate/rate"/></AllInRate>
 
-		<NearMidRateSpot>
-			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/midRate/spotRate"/></NearMidRateSpot>
-		<NearMidRateFwdPoints>
-			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/midRate/forwardPoints"/></NearMidRateFwdPoints>
-		<NearMidAllInRate>
-			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/midRate/rate"/></NearMidAllInRate>
+		<MidRateSpot>
+			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/midRate/spotRate"/></MidRateSpot>
+		<MidRateFwdPoints>
+			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/midRate/forwardPoints"/></MidRateFwdPoints>
+		<MidAllInRate>
+			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/midRate/rate"/></MidAllInRate>
 
         <!-- Near Market Rate -->
-        <NearMkt_AllInRate>
-            <xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/fxCoverRate/rate"/></NearMkt_AllInRate>
-        <NearMkt_SpotRate>
-            <xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/fxCoverRate/baseSpotRate"/></NearMkt_SpotRate>
-        <NearMkt_FwdPoints>
-            <xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/fxCoverRate/baseForwardPoints"/></NearMkt_FwdPoints>
+        <Mkt_AllInRate>
+            <xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/fxCoverRate/rate"/></Mkt_AllInRate>
+        <Mkt_SpotRate>
+            <xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/fxCoverRate/baseSpotRate"/></Mkt_SpotRate>
+        <Mkt_FwdPoints>
+            <xsl:value-of select="/workflowMessage/fxSwap/nearLeg/fxPayment/fxCoverRate/baseForwardPoints"/></Mkt_FwdPoints>
 
 
 
@@ -298,12 +298,12 @@
 		<OriginatingOrderID>
 			<xsl:value-of select="/workflowMessage/entityProperty/request/externalRequestId"/></OriginatingOrderID>
 
-		<NearUTI>
-			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/UTI"/></NearUTI>
+		<UTI>
+			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/UTI"/></UTI>
 		<FarUTI>
 			<xsl:value-of select="/workflowMessage/fxSwap/farLeg/UTI"/></FarUTI>
-		<NearUSI>
-			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/USI"/></NearUSI>
+		<USI>
+			<xsl:value-of select="/workflowMessage/fxSwap/nearLeg/USI"/></USI>
 		<FarUSI>
 			<xsl:value-of select="/workflowMessage/fxSwap/farLeg/USI"/></FarUSI>
 		<UPI>

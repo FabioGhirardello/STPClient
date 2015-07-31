@@ -37,55 +37,42 @@ CREATE TABLE STPMessage (
  CptyID TEXT,
  CptyLE  TEXT,
  CptyUser  TEXT,
+ 
  CoveredTradeID  TEXT,
  CoverTradesID TEXT,
  OriginatingOrderID  TEXT,
  UTI  TEXT,
  UPI TEXT,
+ OrderNotes TEXT, 
  
- NearDealt   TEXT,
- NearBaseAmt   REAL,
- NearTermAmt   REAL,
- NearValueDate   TEXT,
- NearTenor   TEXT,
- NearSpotDate   TEXT,
- NearFwdPoints   REAL,
- NearAllInRate   REAL,
+ SpotDate TEXT,
+ MidRateSpot REAL,
+ MidRateFwdPoints REAL,
+ MidAllInRate REAL,
  
- NearMidRateSpot   REAL,
- NearMidRateFwdPoints   REAL,
- NearMidAllInRate   REAL,
+ FarDealt TEXT,
+ FarBaseAmt REAL,
+ FarTermAmt REAL,
+ FarValueDate TEXT,
+ FarTenor TEXT,
+ FarSpotDate TEXT,
+ FarFwdPoints REAL,
+ FarAllInRate REAL,
+ FarMidRateSpot REAL,
+ FarMidRateFwdPoints REAL,
+ FarMidAllInRate REAL,
+ FarMkt_AllInRate REAL,
+ FarMkt_SpotRate REAL,
+ FarMkt_FwdPoints REAL,
  
- NearMkt_AllInRate REAL,
- NearMkt_SpotRate REAL,
- NearMkt_FwdPoints REAL,
- 
- NearUTI   TEXT,
- NearUSI   TEXT,
- 
- FarDealt   TEXT,
- FarBaseAmt   REAL,
- FarTermAmt   REAL,
- FarValueDate   TEXT,
- FarTenor   TEXT,
- FarSpotDate   TEXT,
- FarFwdPoints   REAL,
- FarAllInRate   REAL,
- 
- FarMidRateSpot   REAL,
- FarMidRateFwdPoints   REAL,
- FarMidAllInRate   REAL,
- 
- FarMkt_AllInRate   REAL,
- FarMkt_SpotRate    REAL,
- FarMkt_FwdPoints   REAL,
- 
- Sprd_PM_FarSpot  REAL,
- Sprd_PP_Far   REAL,
-   
- FarUTI   TEXT,
+ Sprd_PM_FarSpot REAL,
+ Sprd_PP_Near REAL,
+ Sprd_PP_Far REAL,
+ FarUTI TEXT,
+ USI TEXT,
  FarUSI TEXT
- )
+
+ );
 
 
 
