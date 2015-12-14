@@ -64,6 +64,10 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	          <td style="color: #000066;">: <xsl:value-of select="WorkflowChannel"/></td>
 	        </tr>
 	        <tr>
+			  <td>SalesDealer</td>
+			  <td style="color: #000066;">: <xsl:value-of select="SDOrgID"/></td>
+	        </tr>
+	        <tr>
 	          <td>Organization</td>
 	          <td style="color: #000066;">: <xsl:value-of select="OrgID"/></td>
 	        </tr>
@@ -72,8 +76,8 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	          <td style="color: #000066;">: <xsl:value-of select="OrgLE"/></td>
 	        </tr>
 	        <tr>
-	          <td>Org Trader</td>
-	          <td style="color: #000066;">: <xsl:value-of select="OrgUser"/></td>
+	          <td>Trader</td>
+	          <td style="color: #000066;">: <xsl:value-of select="Trader"/></td>
 	        </tr>
 	        <tr>
 	           <td>Role</td>
@@ -232,6 +236,10 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
           <td style="color: #000066;">: <xsl:value-of select="WorkflowChannel"/></td>
         </tr>
         <tr>
+		  <td>SalesDealer</td>
+		  <td style="color: #000066;">: <xsl:value-of select="SDOrgID"/></td>
+		</tr>
+        <tr>
           <td>Organization</td>
           <td style="color: #000066;">: <xsl:value-of select="OrgID"/></td>
         </tr>
@@ -241,7 +249,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
         </tr>
         <tr>
           <td>Org Trader</td>
-          <td style="color: #000066;">: <xsl:value-of select="OrgUser"/></td>
+          <td style="color: #000066;">: <xsl:value-of select="Trader"/></td>
         </tr>
         <tr>
            <td>Role</td>

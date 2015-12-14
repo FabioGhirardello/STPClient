@@ -14,9 +14,9 @@ import java.util.Properties;
 public class STPClient {
     private static Logger log = Logger.getLogger("STPClient");
     private static Logger logTrade = Logger.getLogger("MyTrade");
-    private static final String VERSION = "2.6";
-    private static final String COMPILE_DATE = "2015-06-30";
-    private static final String JDK_VERSION = "1.7.0_51";
+    private static final String VERSION = "2.7";
+    private static final String COMPILE_DATE = "2015-12-14";
+    private static final String JDK_VERSION = "1.7.0_76";
 
     private static DB db;
     private static Email email;
@@ -47,6 +47,8 @@ public class STPClient {
     private static String EMAIL_SWITCH;
     private static String EMAIL_FROM;
     private static String EMAIL_TO;
+    private static String EMAIL_ADDRESS_BOOK;
+    private static String EMAIL_ADDRESS_BOOK_KEY;
     private static String EMAIL_HOST;
     private static String EMAIL_PORT;
     private static String EMAIL_AUTH;
@@ -87,8 +89,8 @@ public class STPClient {
 
         // check if there's a email setup
         if (EMAIL_SWITCH.equalsIgnoreCase("ON")) {
-            email = new Email(EMAIL_FROM, EMAIL_TO, EMAIL_HOST, EMAIL_PORT, EMAIL_USERNAME,
-                    EMAIL_PASSWORD, EMAIL_AUTH, EMAIL_STYLESHEET, EMAIL_SUBJECT, EMAIL_IMAGE);
+            email = new Email(EMAIL_FROM, EMAIL_TO, EMAIL_ADDRESS_BOOK, EMAIL_ADDRESS_BOOK_KEY, EMAIL_HOST, EMAIL_PORT,
+                    EMAIL_USERNAME, EMAIL_PASSWORD, EMAIL_AUTH, EMAIL_STYLESHEET, EMAIL_SUBJECT, EMAIL_IMAGE);
         }
 
         //check if there's a WL email setup
@@ -138,7 +140,7 @@ public class STPClient {
                 Thread.sleep(Long.MAX_VALUE);
             }
             catch (InterruptedException ie){
-
+                log.info("STPClient has been interrupted.");
             }
         }
 
@@ -176,6 +178,8 @@ public class STPClient {
             EMAIL_SWITCH = prop.getProperty("EMAIL.SWITCH", "OFF");
             EMAIL_FROM = prop.getProperty("EMAIL.FROM");
             EMAIL_TO = prop.getProperty("EMAIL.TO", "");
+            EMAIL_ADDRESS_BOOK = prop.getProperty("EMAIL.ADDRESS_BOOK", "");
+            EMAIL_ADDRESS_BOOK_KEY = prop.getProperty("EMAIL.ADDRESS_BOOK_KEY", "");
             EMAIL_HOST = prop.getProperty("EMAIL.HOST");
             EMAIL_PORT = prop.getProperty("EMAIL.PORT");
             EMAIL_AUTH = prop.getProperty("EMAIL.AUTH");

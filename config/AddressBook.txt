@@ -1,0 +1,5 @@
+1000BRKZ/1000BRKZle=fabio.ghirardello@integral.com,1000BRKZle@integral.com
+1000BRKZ/1000BRKZLE2=fabio.ghirardello@integral.com,1000BRKZLE2@integral.com
+#8000BRKZ/8000BRKZ=fabio.ghirardello@integral.com,8000BRKZ@integral.com
+8000BRKZ/8000BRKZle1=fabio.ghirardello@integral.com,8000BRKZle1@integral.com
+8000BRKZ/8000BRKZle2=fabio.ghirardello@integral.com,8000BRKZle2@integral.com

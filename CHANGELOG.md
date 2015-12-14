@@ -1,3 +1,8 @@
+### 2.7 (2015-12-14)
+
+- Added Address Book functionality to the Email feature.
+
+
 ### 2.6 (2015-06-30)
 
 - Added Thread.sleep() to lower CPU load.

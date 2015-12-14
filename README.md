@@ -1,11 +1,11 @@
 # STP CLIENT
 
-Version: 2.6
-Last update: 2015-06-30
+Version: 2.7
+Last update: 2015-12-14
 
 ### Java Dependencies:
 
-The app was compiled with Java 1.7.0_51.
+The app was compiled with Java 1.7.0_76.
 If you plan to insert deals into a database, ensure the JRE and database have the same architecture (32/64 bits).
 
 Main jars: 
@@ -91,12 +91,23 @@ Relevant properties are below. These are the standard ODBC connection details.
 Optionally, an email can be sent for every new message. If the stylesheet file is creating a XML file, then
 you can reformat the body of the email using another stylesheet file, and you can also customize the subject using
 as keywords the nodes in the XML message.
+You can add an address book with key value pairs to send the email to specific receivers depending on one or more specific factors. 
+For example, your address book can look like this:
+
+	1000BRKZ/1000BRKZle=team1@whatnot.com
+	1000BRKZ/1000BRKZLE2=team2@whatnot.com
+
+and the email will be sent to the specific team if the key specified in *ADDRESS_BOOK_KEY* matches any key in the address book, 
+otherwise it will be sent to the default which is what is set in *TO*.
+
 You can also add a logo image. Below the properties.
 
 
 	EMAIL.SWITCH=ON
 	EMAIL.FROM=stp@integral.com
 	EMAIL.TO=fabio@integral.com
+	EMAIL.ADDRESS_BOOK=config/AddressBook.txt
+	EMAIL.ADDRESS_BOOK_KEY=<OrgID>,/,<OrgLE>
 	EMAIL.HOST=out.int.com
 	EMAIL.PORT=25
 	EMAIL.AUTH=FALSE

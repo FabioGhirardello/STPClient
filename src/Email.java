@@ -13,9 +13,7 @@ import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import java.io.File;
-import java.io.StringWriter;
-import java.io.Writer;
+import java.io.*;
 import java.util.Properties;
 
 public class Email
@@ -26,14 +24,16 @@ public class Email
     private String from;
     private String to;
     private String stylesheet;
+    private String[] addressBookKey;
     private String[] subjectFields;
     private String image;
+    private Properties prop;
 
-
-    public Email(String from, String to, String host, String port, String username,
-                    String password, String auth, String stylesheet, String subjectFields, String image) {
+    public Email(String from, String to, String addressBook, String addressBookKey, String host, String port, String username,
+                 String password, String auth, String stylesheet, String subjectFields, String image) {
         this.from = from;
         this.to = to;
+        this.addressBookKey = addressBookKey.split(",");
         this.stylesheet = stylesheet;
         this.subjectFields = subjectFields.split(",");
         this.image = image;
@@ -54,11 +54,29 @@ public class Email
         } catch (Exception e) {
             log.error("[EMA003] The property file is not correctly formatted");
         }
+
+        if (!addressBook.equalsIgnoreCase("")) {
+            readAddressBook(addressBook);
+        }
+        else {
+            this.prop = null;
+        }
     }
 
 
-    public void send (String tradeID, Document doc) {
-        this.send(tradeID, doc, this.to, this.stylesheet, getSubject(doc), this.image);
+    public void send(String tradeID, Document doc) {
+        if (this.prop == null) {
+            this.send(tradeID, doc, this.to, this.stylesheet, getSubject(doc), this.image);
+        }
+        else {
+            String addressee = prop.getProperty(getAddressBookKey(doc), "");
+            if (addressee.equalsIgnoreCase("")){
+                this.send(tradeID, doc, this.to, this.stylesheet, getSubject(doc), this.image);
+            }
+            else {
+                this.send(tradeID, doc, addressee, this.stylesheet, getSubject(doc), this.image);
+            }
+        }
     }
 
     public void send (String tradeID, Document doc, String to, String stylesheet, String subject, String image) {
@@ -113,11 +131,11 @@ public class Email
                 Transport.send(message);
                 log.info(tradeID + " - E-mail sent to " + to);
             }
- catch (MessagingException mex) {
+            catch (MessagingException mex) {
                 log.error("[EMA001] E-mail failed for deal " + tradeID + ": " + mex.getMessage());
             }
             //catch (Exception e) {
-              //  log.error("[EMA002] E-mail failed for deal " + tradeID + ": " + e.getMessage());
+            //  log.error("[EMA002] E-mail failed for deal " + tradeID + ": " + e.getMessage());
             //}
         }
     }
@@ -137,6 +155,60 @@ public class Email
             e.printStackTrace();
         }
         return outputString ;
+    }
+
+    private void readAddressBook(String addressBook) {
+        InputStream input = null;
+        try {
+            prop = new Properties();
+            input = new FileInputStream(addressBook);
+
+            // load a properties file
+            prop.load(input);
+        }
+        catch (IOException e) {
+            log.error("[EMA003] - Error reading properties file. ", e);
+        }
+        finally {
+            if (input != null) {
+                try {
+                    input.close();
+                }
+                catch (IOException e) {
+                    //do nothing
+                }
+            }
+        }
+    }
+
+    private String getAddressBookKey(Document doc) {
+        String addressBookKey = "";
+        try {
+            NodeList nodeList = doc.getDocumentElement().getChildNodes();
+
+            for (String key : this.addressBookKey) {
+                if (key.charAt(0) == '<') {
+                    String field = key.replace("<", "").replace(">", "");
+
+                    for (int i = 0; i < nodeList.getLength(); i++) {
+                        if (nodeList.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                            Element element = (Element) nodeList.item(i);
+                            if (element.getNodeName().equalsIgnoreCase(field)) {
+                                addressBookKey += element.getTextContent();
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    addressBookKey += key;
+                }
+            }
+        }
+        catch (Exception e) {
+            log.error("[EMA005] - Unable to build the AddressBookKey");
+            addressBookKey = "";
+        }
+        return addressBookKey;
     }
 
     private String getSubject(Document doc) {
