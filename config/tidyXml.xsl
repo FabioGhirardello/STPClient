@@ -81,29 +81,12 @@
 
 
 		<!-- Party organizations -->
-		<xsl:choose>
-			<xsl:when test="workflowMessage/fxSingleLeg/@namespace = /workflowMessage/to/shortName">
-
-				<OrgID>
-					<xsl:value-of select="/workflowMessage/to/shortName"/></OrgID>
-				<OrgLE>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/cptyTrade/legalEntity"/></OrgLE>
-				<Trader>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/cptyTrade/legalEntityUser"/></Trader>
-
-			</xsl:when>
-			<xsl:otherwise>
-				<SDOrgID>
-					<xsl:value-of select="/workflowMessage/to/shortName"/></SDOrgID>
-				<Trader>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/cptyTrade/legalEntityUser"/></Trader>
-				<OrgID>
-					<xsl:value-of select="workflowMessage/fxSingleLeg/@namespace"/></OrgID>
-				<OrgLE>
-					<xsl:value-of select="/workflowMessage/fxSingleLeg/cptyTrade/legalEntity"/></OrgLE>
-
-			</xsl:otherwise>
-        </xsl:choose>
+		<OrgID>
+			<xsl:value-of select="/workflowMessage/to/shortName"/></OrgID>
+		<OrgLE>
+			<xsl:value-of select="/workflowMessage/fxSingleLeg/cptyTrade/legalEntity"/></OrgLE>
+		<OrgUser>
+			<xsl:value-of select="/workflowMessage/fxSingleLeg/cptyTrade/legalEntityUser"/></OrgUser>
 
 
         <xsl:choose>
@@ -141,8 +124,7 @@
 			<xsl:value-of select="/workflowMessage/fxSingleLeg/@UPI"/></UPI>
 		<OrderNotes>
 			<xsl:value-of select="/workflowMessage/fxSingleLeg/orderNotes"/></OrderNotes>
-		<BookName>
-			<xsl:value-of select="/workflowMessage/fxSingleLeg/ymBookName"/></BookName>
+
 	</xsl:if>
 
 <!-- if the deal is a FXSpotFwd or a FXFwdFwd, the data is in the <fxSwap> node and there are 2 legs -->
@@ -234,7 +216,7 @@
 
         <!-- Far Market Rate -->
         <FarMkt_AllInRate>
-            <xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/fxCoverRate/baseRate"/></FarMkt_AllInRate>
+            <xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/fxCoverRate/rate"/></FarMkt_AllInRate>
         <FarMkt_SpotRate>
             <xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/fxCoverRate/baseSpotRate"/></FarMkt_SpotRate>
         <FarMkt_FwdPoints>
@@ -255,29 +237,13 @@
             <xsl:value-of select="/workflowMessage/fxSwap/farLeg/fxPayment/fxCoverRate/spread[@name='PPCustSprd']"/></Sprd_PP_Total>
 
 		<!-- Party organizations -->
-		<xsl:choose>
-			<xsl:when test="workflowMessage/fxSwap/@namespace = /workflowMessage/to/shortName">
+		<OrgID>
+			<xsl:value-of select="/workflowMessage/to/shortName"/></OrgID>
+		<OrgLE>
+			<xsl:value-of select="/workflowMessage/fxSwap/cptyTrade/legalEntity"/></OrgLE>
+		<OrgUser>
+			<xsl:value-of select="/workflowMessage/fxSwap/cptyTrade/legalEntityUser"/></OrgUser>
 
-				<OrgID>
-					<xsl:value-of select="/workflowMessage/to/shortName"/></OrgID>
-				<OrgLE>
-					<xsl:value-of select="/workflowMessage/fxSwap/cptyTrade/legalEntity"/></OrgLE>
-				<Trader>
-					<xsl:value-of select="/workflowMessage/fxSwap/cptyTrade/legalEntityUser"/></Trader>
-
-			</xsl:when>
-			<xsl:otherwise>
-				<SDOrgID>
-					<xsl:value-of select="/workflowMessage/to/shortName"/></SDOrgID>
-				<Trader>
-					<xsl:value-of select="/workflowMessage/fxSwap/cptyTrade/legalEntityUser"/></Trader>
-				<OrgID>
-					<xsl:value-of select="workflowMessage/fxSwap/@namespace"/></OrgID>
-				<OrgLE>
-					<xsl:value-of select="/workflowMessage/fxSwap/cptyTrade/legalEntity"/></OrgLE>
-
-			</xsl:otherwise>
-        </xsl:choose>
         <xsl:choose>
             <xsl:when test="workflowMessage/parameter[3] = 'Maker'">
                 <CptyID>

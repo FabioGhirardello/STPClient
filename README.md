@@ -1,11 +1,11 @@
 # STP CLIENT
 
-Version: 2.7
-Last update: 2015-12-14
+Version: 2.8
+Last update: 2016-02-24
 
 ### Java Dependencies:
 
-The app was compiled with Java 1.7.0_76.
+The app was compiled with Java 1.8.0_65.
 If you plan to insert deals into a database, ensure the JRE and database have the same architecture (32/64 bits).
 
 Main jars: 
@@ -79,11 +79,11 @@ Then the sql query will be:
 
 Relevant properties are below. These are the standard ODBC connection details.
 
-	DB.SWITCH=ON
-	DB.JDBC_DRIVER=org.sqlite.JDBC
-	DB.URL=jdbc:sqlite:STPMessages.db
-	DB.USERNAME=
-	DB.PASSWORD=
+	application.DB.SWITCH=ON
+	application.DB.JDBC_DRIVER=org.sqlite.JDBC
+	application.DB.URL=jdbc:sqlite:STPMessages.db
+	application.DB.USERNAME=
+	application.DB.PASSWORD=
 
 
 ### Email
@@ -126,20 +126,20 @@ addresses. An example is below; the key is the Counterparty ID:
     1000BRKZ=joe@abcbank.com,sue@abcbank.com
 
 You can specify a custom stylesheet, image and subject so that the deal is from the client's perspective. 
-Set property *WL.SIDE_INDICATOR* to help customize the subject of the email with the direction from the perspective
-of the WL client. The value to this property should be the field name that indicates the side followed by the indicators 
+Set property *application.WL.SIDE_INDICATOR* to help customize the subject of the email with the direction from the perspective
+of the application.WL client. The value to this property should be the field name that indicates the side followed by the indicators
 used to identify a buy or a sell (eg: Buy/Sell; B/S; 1/2; etc.). The 3 values should be comma separated (eg:Side,Buy,Sell).
-Once this property is configured, adding eg: \<Side\> to the WL.SUBJECT will return the direction from the perspective of the
-WL client. You must set in WL.CPTY_ID the node in the XML file that identifies the WL client organization.
+Once this property is configured, adding eg: \<Side\> to the application.WL.SUBJECT will return the direction from the perspective of the
+application.WL client. You must set in application.WL.CPTY_ID the node in the XML file that identifies the application.WL client organization.
 You are required to set EMAIL.SWITCH to 'ON'.
 
-	WL.SWITCH=ON
-    WL.CPTY_ID=CptyID
-    WL.STYLESHEET=config/wlEmail.xsl
-    WL.SUBJECT=<TradeID>, ,<CptyUser>, ,<Side>,s, ,<BaseCcy>,/,<TermCcy>, ,<BaseAmt>, ,<ValueDate>, @ ,<AllInRate>
-    WL.SIDE_INDICATOR=Side,Buy,Sell
-    WL.CLIENTS_EMAILS=config/WLClients.txt
-    WL.IMAGE=config/wlIntegral.jpg
+	application.WL.SWITCH=ON
+    application.WL.CPTY_ID=CptyID
+    application.WL.STYLESHEET=config/wlEmail.xsl
+    application.WL.SUBJECT=<TradeID>, ,<CptyUser>, ,<Side>,s, ,<BaseCcy>,/,<TermCcy>, ,<BaseAmt>, ,<ValueDate>, @ ,<AllInRate>
+    application.WL.SIDE_INDICATOR=Side,Buy,Sell
+    application.WL.CLIENTS_EMAILS=config/WLClients.txt
+    application.WL.IMAGE=config/wlIntegral.jpg
 
 
 ### Save individual deals to a file
@@ -171,10 +171,9 @@ Then the FIX message TradeCaptureReport (AE) will output something like this:
 	
 The FIX configuration file is a separate file whose location needs to be specified in the properties. 
 
-	QFJ.SWITCH=OFF
-	QFJ.CONFIG_FILE=config/qfj.properties
+	application.QFJ.SWITCH=OFF
+	application.QFJ.CONFIG_FILE=config/qfj.properties
 	
-
 ### Running the app
 
 Below is the command to run the application. This assumes you have all the required libraries in lib/,
@@ -189,14 +188,22 @@ Messages can be saved into a separate log file. This is accomplished with the lo
 appender to the category "MyTrade".
 Log4j requires its own configuration file. The category that returns the application logging is 'STPClient'.
 
+### Custom manipulation 
 
+You can write a custom class that creates an instance of STPApplication and manipulates the parsed Document object before it is further processed. 
 
 
 # CHANGE LOG
 
-### 2.7 (2015-12-14)
+### 2.8 (2016-02-24)
 
-- Added Address Book functionality to the Email feature.
+- Separated the core code from the main() method into a separate class *STPApplication*.
+- Added interface *CustomModification* in the STPApplication class, to allow for modification of the Document object.
+- the main() method now creates an object of class *STPApplication* and implements the interfece. By default, the same object is returned - no modification.
+
+# 2.7 (2015-12-14)
+
+- Added Address Book functionality to the application.Email feature.
 
 
 ### 2.6 (2015-06-30)
@@ -209,16 +216,16 @@ Log4j requires its own configuration file. The category that returns the applica
 
 ### 2.4 (2015-05-18)
 
-- Added new property *WL.IMAGE* to insert a custom image on WL emails.
-- Added new property *WL.SIDE_INDICATOR* to help customize the subject of the email with the direction from the perspective
-of the WL client. The value to this property should be the field name that indicates the side followed by the indicators 
+- Added new property *application.WL.IMAGE* to insert a custom image on application.WL emails.
+- Added new property *application.WL.SIDE_INDICATOR* to help customize the subject of the email with the direction from the perspective
+of the application.WL client. The value to this property should be the field name that indicates the side followed by the indicators
 used to identify a buy or a sell (eg: Buy/Sell; B/S; 1/2; etc.). The 3 values should be comma separated (eg:Side,Buy,Sell).
-Once this property is configured, adding eg: <Side> to the WL.SUBJECT will return the direction from the perspective of the 
-WL client.
+Once this property is configured, adding eg: <Side> to the application.WL.SUBJECT will return the direction from the perspective of the
+application.WL client.
 - The stylesheet for sending FIX messages uses now parameters to identify the tag, rather than the "field_#" convention (eg: <TradeID_17>).
 For example, to send *\<TradeId\>* as tag #17, use *\<TradeId tag="17"\>*.
 - Logging configuration file log4j.xml should be updated with the new class names, as follows:
-    - *com.integral* --> *IBMMQClient* (to grab connection logging and the raw finXML file);
+    - *com.integral* --> *application.IBMMQClient* (to grab connection logging and the raw finXML file);
     - *FabSTPClient* --> *STPClient* (to grab all application logging).
 - STPClient.jar now features the version in the filename.
 
@@ -229,5 +236,5 @@ For example, to send *\<TradeId\>* as tag #17, use *\<TradeId tag="17"\>*.
 - Renamed *FabSTPClient* to *STPClient*. This is important to launch the app.
 - Stylesheet files meant to return plain text should be enclosed in a *\<root\>* node; this is so that the app recognizes 
 these Document objects are actually plain text files. An example is *csv.xsl*.
-- Renamed properties *EMAIL.TITLE, WL.TITLE, FILE.TITLE* to *EMAIL.SUBJECT, WL.SUBJECT, FILE.NAME*.
-- Added class *WriteFile* to separate the function to save the message to an individual file from class STPClient.
+- Renamed properties *EMAIL.TITLE, application.WL.TITLE, FILE.TITLE* to *EMAIL.SUBJECT, application.WL.SUBJECT, FILE.NAME*.
+- Added class *application.WriteFile* to separate the function to save the message to an individual file from class STPClient.
