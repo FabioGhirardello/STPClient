@@ -1,6 +1,7 @@
 # STP CLIENT
 
 Version: 2.8
+
 Last update: 2016-02-24
 
 ### Java Dependencies:
@@ -79,11 +80,11 @@ Then the sql query will be:
 
 Relevant properties are below. These are the standard ODBC connection details.
 
-	application.DB.SWITCH=ON
-	application.DB.JDBC_DRIVER=org.sqlite.JDBC
-	application.DB.URL=jdbc:sqlite:STPMessages.db
-	application.DB.USERNAME=
-	application.DB.PASSWORD=
+	DB.SWITCH=ON
+	DB.JDBC_DRIVER=org.sqlite.JDBC
+	DB.URL=jdbc:sqlite:STPMessages.db
+	DB.USERNAME=
+	DB.PASSWORD=
 
 
 ### Email
@@ -133,13 +134,13 @@ Once this property is configured, adding eg: \<Side\> to the application.WL.SUBJ
 application.WL client. You must set in application.WL.CPTY_ID the node in the XML file that identifies the application.WL client organization.
 You are required to set EMAIL.SWITCH to 'ON'.
 
-	application.WL.SWITCH=ON
-    application.WL.CPTY_ID=CptyID
-    application.WL.STYLESHEET=config/wlEmail.xsl
-    application.WL.SUBJECT=<TradeID>, ,<CptyUser>, ,<Side>,s, ,<BaseCcy>,/,<TermCcy>, ,<BaseAmt>, ,<ValueDate>, @ ,<AllInRate>
-    application.WL.SIDE_INDICATOR=Side,Buy,Sell
-    application.WL.CLIENTS_EMAILS=config/WLClients.txt
-    application.WL.IMAGE=config/wlIntegral.jpg
+	WL.SWITCH=ON
+    WL.CPTY_ID=CptyID
+    WL.STYLESHEET=config/wlEmail.xsl
+    WL.SUBJECT=<TradeID>, ,<CptyUser>, ,<Side>,s, ,<BaseCcy>,/,<TermCcy>, ,<BaseAmt>, ,<ValueDate>, @ ,<AllInRate>
+    WL.SIDE_INDICATOR=Side,Buy,Sell
+    WL.CLIENTS_EMAILS=config/WLClients.txt
+    WL.IMAGE=config/wlIntegral.jpg
 
 
 ### Save individual deals to a file
@@ -171,8 +172,8 @@ Then the FIX message TradeCaptureReport (AE) will output something like this:
 	
 The FIX configuration file is a separate file whose location needs to be specified in the properties. 
 
-	application.QFJ.SWITCH=OFF
-	application.QFJ.CONFIG_FILE=config/qfj.properties
+	QFJ.SWITCH=OFF
+	QFJ.CONFIG_FILE=config/qfj.properties
 	
 ### Running the app
 
@@ -201,10 +202,9 @@ You can write a custom class that creates an instance of STPApplication and mani
 - Added interface *CustomModification* in the STPApplication class, to allow for modification of the Document object.
 - the main() method now creates an object of class *STPApplication* and implements the interfece. By default, the same object is returned - no modification.
 
-# 2.7 (2015-12-14)
+### 2.7 (2015-12-14)
 
 - Added Address Book functionality to the application.Email feature.
-
 
 ### 2.6 (2015-06-30)
 
