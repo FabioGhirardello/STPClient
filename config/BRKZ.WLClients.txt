@@ -1,0 +1,2 @@
+8000BRKZ=fabio.ghirardello@integral.com,stp@integral.com
+1000BRKZ=fabio.ghirardello@integral.com
