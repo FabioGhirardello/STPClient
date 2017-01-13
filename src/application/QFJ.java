@@ -18,14 +18,16 @@ import java.util.Properties;
 
 
 public class QFJ extends MessageCracker implements Application {
-    public static Logger log = Logger.getLogger("STPClient");
+    public static Logger log = Logger.getLogger(QFJ.class.getSimpleName());
     private SessionSettings sessionSettings;
     private SessionID priceSessionID = null;
 
     private boolean isReady = false;
 
+    final private String client;
 
-    public QFJ(String configFile)  {
+    public QFJ(String client, String configFile)  {
+        this.client = client;
         InputStream fileInputStream = null;
         try {
             fileInputStream = new FileInputStream(configFile);
@@ -41,17 +43,17 @@ public class QFJ extends MessageCracker implements Application {
             this.waitForLogon();
         }
         catch (FileNotFoundException e) {
-            log.error("[QFJ003] ", e);
+            log.error(client + " " + "[QFJ003] ", e);
         }
         catch (ConfigError configError) {
-            log.error("[QFJ002] ", configError);
+            log.error(client + " " + "[QFJ002] ", configError);
         } finally  {
             if (fileInputStream != null) {
                 try  {
                     fileInputStream.close();
                 }
                 catch (Exception e) {
-                    log.error("[QFJ008] ", e);
+                    log.error(client + " " + "[QFJ008] ", e);
                 }
             }
         }
@@ -72,7 +74,7 @@ public class QFJ extends MessageCracker implements Application {
                 priceSessionID = sessionID;
             }
         } catch (ConfigError configError) {
-            log.error("[QFJ007] ", configError);
+            log.error(client + " " + "[QFJ007] ", configError);
         }
     }
     public void onLogon(SessionID arg0) {
@@ -93,10 +95,10 @@ public class QFJ extends MessageCracker implements Application {
             }
         }
         catch ( FieldNotFound fnf ) {
-            log.error("[QFJ006] ", fnf);
+            log.error(client + " " + "[QFJ006] ", fnf);
         }
         catch (ConfigError configError) {
-            log.error("[QFJ005] ", configError);
+            log.error(client + " " + "[QFJ005] ", configError);
         }
     }
     public void toApp(Message arg0, SessionID arg1) throws DoNotSend {
@@ -122,21 +124,21 @@ public class QFJ extends MessageCracker implements Application {
             }
         }
         catch (Exception e) {
-            log.error("[QFJ001] ", e);
+            log.error(client + " " + "[QFJ001] ", e);
         }
 
         try {
             Session.sendToTarget(message, priceSessionID);
         }
         catch (SessionNotFound e) {
-            log.error("[QFJ004] ", e);
+            log.error(client + " " + "[QFJ004] ", e);
         }
     }
 
     public void waitForLogon() {
         while (!isReady) {
             try {
-                log.info("Waiting for FIX Logon, will try again in 1 second...");
+                log.info(client + " " + "Waiting for FIX Logon, will try again in 1 second...");
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();

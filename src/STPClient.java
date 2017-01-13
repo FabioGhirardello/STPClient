@@ -1,9 +1,9 @@
-import application.STPApplication;
+import application.STPApp;
 import org.w3c.dom.Document;
 
 public class STPClient {
     public static void main(String args[]) {
-        STPApplication stpApplication = new STPApplication(args[0], new STPApplication.CustomModification() {
+        STPApp stpApp = new STPApp(args[0], new STPApp.CustomModification() {
             @Override
             public Document customWork(Document document) {
                 return document;

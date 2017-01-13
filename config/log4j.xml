@@ -6,7 +6,7 @@
 	<!-- Default appender writing message to STD OUT -->
 	<appender name="STD_OUT" class="org.apache.log4j.ConsoleAppender">
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d{yyyy-MM-dd} %d{ABSOLUTE} %5p %m%n" />
+			<param name="ConversionPattern" value="%d %5p [%c] %m%n" />
 		</layout>
 	</appender>
 
@@ -22,7 +22,7 @@
 		<param name="File" value="App.log" />
         <param name="DatePattern" value=".yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d{yyyy-MM-dd} %d{ABSOLUTE} %5p %m%n" />
+			<param name="ConversionPattern" value="%d %5p [%c] %m%n" />
 		</layout>
 	</appender>
 
@@ -35,30 +35,33 @@
 		</layout>
 	</appender>
 
-	<!-- application.IBMMQClient logs the messages from the STPConnector -->
-	<category name="IBMMQClient" additivity="false">
+	<!--
+
+	<category name="MQ" additivity="true">
 		<priority value="INFO" />
-		<appender-ref ref="APP_LOG" />
+		<appender-ref ref="DEV_NULL" />
 	</category>
 
-	<category name="STPClient" additivity="false">
+
+	<category name="MultiSTPApp" additivity="false">
 		<priority value="INFO" />
 		<appender-ref ref="STD_OUT" />
 		<appender-ref ref="APP_LOG" />
 	</category>
+	-->
 
 	<!-- MyTrade just logs the STP messages -->
 	<category name="MyTrade" additivity="false">
 		<priority value="INFO" />
-		<appender-ref ref="STD_OUT" />
-		<appender-ref ref="APP_LOG" />
+		<appender-ref ref="DEV_NULL" />
 	</category>
 
 
 	<!-- Default root category. -->
 	<root>
 		<priority value="INFO" />
-		<appender-ref ref="DEV_NULL" />
+		<appender-ref ref="STD_OUT" />
+		<appender-ref ref="APP_LOG" />
 	</root>
 
 

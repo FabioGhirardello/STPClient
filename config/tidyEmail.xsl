@@ -422,7 +422,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
     	<p>If you have any questions regarding this email, please contact the Integral FX Team.</p>
    	<p style="color: #666;"><b>Integral FX Support</b><br />
-   	 application.Email: <a href="mailto:support@integral.com">support@integral.com </a><br />
+   	 Email: <a href="mailto:support@integral.com">support@integral.com </a><br />
     	Tel: +1.212.252.2243<br />
 	Toll Free: +1.212.252.2243</p>
   </body>

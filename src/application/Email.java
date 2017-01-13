@@ -20,19 +20,23 @@ import java.util.Properties;
 
 public class Email
 {
-    public static Logger log = Logger.getLogger("STPClient");
+    public static Logger log = Logger.getLogger(Email.class.getSimpleName());
     private Session session;
 
-    private String from;
-    private String to;
-    private String stylesheet;
-    private String[] addressBookKey;
-    private String[] subjectFields;
-    private String image;
+    final private String from;
+    final private String to;
+    final private String stylesheet;
+    final private String[] addressBookKey;
+    final private String[] subjectFields;
+    final private String image;
     private Properties prop;
 
-    public Email(String from, String to, String addressBook, String addressBookKey, String host, String port, String username,
+    private String client;
+
+    public Email(String client, String from, String to, String addressBook, String addressBookKey, String host, String port, String username,
                  String password, String auth, String stylesheet, String subjectFields, String image) {
+
+        this.client = client;
         this.from = from;
         this.to = to;
         this.addressBookKey = addressBookKey.split(",");
@@ -54,7 +58,7 @@ public class Email
             // Get the default Session object.
             session = Session.getDefaultInstance(properties);
         } catch (Exception e) {
-            log.error("[EMA003] The property file is not correctly formatted");
+            log.error(client + " " + "[EMA003] The property file is not correctly formatted");
         }
 
         if (!addressBook.equalsIgnoreCase("")) {
@@ -126,15 +130,15 @@ public class Email
                     // put everything together
                     message.setContent(mimeMultipart);
                 } else {
-                    message.setText(STPApplication.docToString(doc).replaceAll("><", ">\n<"));
+                    message.setText(STPApp.docToString(doc).replaceAll("><", ">\n<"));
                 }
 
                 // Send message
                 Transport.send(message);
-                log.info(tradeID + " - E-mail sent to " + to);
+                log.info(client + " " + tradeID + " - E-mail sent to " + to);
             }
             catch (MessagingException mex) {
-                log.error("[EMA001] E-mail failed for deal " + tradeID + ": " + mex.getMessage());
+                log.error(client + " " + "[EMA001] E-mail failed for deal " + tradeID + ": " + mex.getMessage());
             }
             //catch (Exception e) {
             //  log.error("[EMA002] E-mail failed for deal " + tradeID + ": " + e.getMessage());
@@ -169,7 +173,7 @@ public class Email
             prop.load(input);
         }
         catch (IOException e) {
-            log.error("[EMA003] - Error reading properties file. ", e);
+            log.error(client + " " + "[EMA003] - Error reading properties file. ", e);
         }
         finally {
             if (input != null) {
@@ -207,7 +211,7 @@ public class Email
             }
         }
         catch (Exception e) {
-            log.error("[EMA005] - Unable to build the AddressBookKey");
+            log.error(client + " " + "[EMA005] - Unable to build the AddressBookKey");
             addressBookKey = "";
         }
         return addressBookKey;
@@ -236,7 +240,7 @@ public class Email
             }
         }
         catch (Exception e) {
-            log.error("[EMA004] - Unable to build the email subject");
+            log.error(client + " " + "[EMA004] - Unable to build the email subject");
             subject = "";
         }
         return subject;

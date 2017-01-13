@@ -8,13 +8,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class WriteFile {
-    private static Logger log = Logger.getLogger("STPClient");
-    private String path;
-    private String dateFormat;
-    private String counter;
-    private String[] name;
+    private static Logger log = Logger.getLogger(WriteFile.class.getSimpleName());
+    final private String path;
+    final private String dateFormat;
+    final private String counter;
+    final private String[] name;
+    final private String client;
 
-    public WriteFile(String fileDateFormat, String fileCounter, String fileName, String filePath) {
+    public WriteFile(String client, String fileDateFormat, String fileCounter, String fileName, String filePath) {
+        this.client = client;
         this.dateFormat = fileDateFormat;
         this.counter = fileCounter;
         this.path = filePath;
@@ -37,7 +39,7 @@ public class WriteFile {
                     counter = Integer.parseInt(line);
                 }
             } catch (IOException e) {
-                log.error("[ERR003] ", e);
+                log.error(client + " " + "[ERR003] ", e);
             }
 
             // update the counter
@@ -71,7 +73,7 @@ public class WriteFile {
                             break;
                         default:
                             fileName += n;
-                            log.error("[ERR004] - The only valid keywords are 'Counter', 'Date' and 'TradeID'.");
+                            log.error(client + " " + "[ERR004] - The only valid keywords are 'Counter', 'Date' and 'TradeID'.");
                     }
                 } else {
                     fileName += field;
@@ -79,7 +81,7 @@ public class WriteFile {
             }
         }
         catch (Exception e) {
-            log.error("[ERR005] ", e);
+            log.error(client + " " + "[ERR005] ", e);
         }
 
         fileName = this.path + "/" + fileName;
@@ -88,9 +90,9 @@ public class WriteFile {
             PrintWriter out = new PrintWriter(fileName);
             out.print(message);
             out.close();
-            log.info(tradeId + " - Saved to file " + fileName);
+            log.info(client + " " + tradeId + " - Saved to file " + fileName);
         } catch (FileNotFoundException e) {
-            log.error("[ERR006] ", e);
+            log.error(client + " " + "[ERR006] ", e);
         }
     }
 

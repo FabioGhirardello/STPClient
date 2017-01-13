@@ -12,18 +12,19 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class WL {
-    public static Logger log = Logger.getLogger("STPClient");
+    public static Logger log = Logger.getLogger(WL.class.getSimpleName());
 
-    private Email email;
-    private String cptyId;
-    private String stylesheet;
-    private String[] subjectFields;
-    private String[] sideIndicator;
-    private String image;
+    final private Email email;
+    final private String cptyId;
+    final private String stylesheet;
+    final private String[] subjectFields;
+    final private String[] sideIndicator;
+    final private String image;
+    final private String client;
 
     private Properties prop;
 
-    public WL(Email email, String cptyId, String stylesheet, String subjectFields, String sideIndicator,
+    public WL(String client, Email email, String cptyId, String stylesheet, String subjectFields, String sideIndicator,
               String wlClientsEmails, String image) {
         this.email = email;
         this.cptyId = cptyId;
@@ -31,6 +32,7 @@ public class WL {
         this.subjectFields = subjectFields.split(",");
         this.sideIndicator = sideIndicator.split(",");
         this.image = image;
+        this.client = client;
 
         this.readWLClients(wlClientsEmails);
     }
@@ -60,7 +62,7 @@ public class WL {
             }
         }
         catch (Exception e) {
-            log.error("[WL001] ", e);
+            log.error(client + " " + "[WL001] ", e);
         }
         return cpty;
     }
@@ -76,7 +78,7 @@ public class WL {
             prop.load(input);
         }
         catch (IOException e) {
-            log.error("[WL002] - Error reading properties file. ", e);
+            log.error(client + " " + "[WL002] - Error reading properties file. ", e);
         }
         finally {
             if (input != null) {
@@ -122,7 +124,7 @@ public class WL {
             }
         }
         catch (Exception e) {
-            log.error("[EMA004] - Unable to build the email subject");
+            log.error(client + " " + "[EMA004] - Unable to build the email subject");
             subject = "";
         }
         return subject;
