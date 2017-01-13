@@ -1,12 +1,12 @@
 # STP CLIENT
 
-Version: 2.8
+Version: 3.0
 
-Last update: 2016-02-24
+Last update: 2017-01-13
 
 ### Java Dependencies:
 
-The app was compiled with Java 1.8.0_65.
+The app was compiled with Java 1.8.0_101.
 If you plan to insert deals into a database, ensure the JRE and database have the same architecture (32/64 bits).
 
 Main jars: 
@@ -34,7 +34,6 @@ QuickFix/J:
 - slf4j-api-1.6.3.jar
 - slf4j-log4j12-1.6.3.jar
 
-
 ### Queue Connection and XSLT
 
 This application connects to the IBM MQ queue and automatically downloads the messages. The details of the connection need
@@ -47,6 +46,9 @@ For example, tidyXml.xsl will create a nicer and simpler xml file, while csv.xsl
 
 These are the properties. You need to set the Stylesheet, while the other properties will be provided by Integral.
 
+	[DEFAULT]
+	
+	[XXX]
 	STP.STYLESHEET=config/tidyXml.xsl
 	STP.IP=xxx.xxx.xxx.xxx
 	STP.PORT=yyyy
@@ -187,14 +189,37 @@ and the properties file, the xsl files and a log4j.xml file in config/.
 
 Messages can be saved into a separate log file. This is accomplished with the logging utility 'log4j' by setting the proper
 appender to the category "MyTrade".
-Log4j requires its own configuration file. The category that returns the application logging is 'STPClient'.
+Log4j requires its own configuration file. The category that returns the application logging is 'STPApp'.
 
 ### Custom manipulation 
 
-You can write a custom class that creates an instance of STPApplication and manipulates the parsed Document object before it is further processed. 
+You can write a custom class that creates an instance of STPApp and manipulates the parsed Document object before it is further processed. 
+
+### Multiple connections
+
+You can connect to multiple MQ at the same time and have each work and act individually. In the property file, list all property under a header as below:
+
+    [DEFAULT]
+    # list here props that are common to all connections
+    # this header must be present even if using just one connection
+    
+    [FIRST_STP_CONNECTION]
+    # list here specific props
+    # an identification header must be present even if using just one connection
+    
+    [SECOND_STP_CONNECTION]
+    # list here specific props
+    
+    
 
 
 # CHANGE LOG
+
+### 3.0 (2017-01-13)
+
+- Added support for multiple MQ connections. Property file changes accordingly.
+- Renamed STPApplication to STPApp
+- Updated logging output to include Class and the identification name in the property file
 
 ### 2.8 (2016-02-24)
 

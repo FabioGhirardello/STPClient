@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact name="STPClient:jar">
+  <artifact build-on-make="true" name="STPClient:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/STPClient_jar</output-path>
     <root id="root">
       <element id="archive" name="STPClient.jar">

@@ -20,7 +20,7 @@ public class STPApp {
     private static Logger logTrade = Logger.getLogger("MyTrade");
 
     private static final String VERSION = "3.0";
-    private static final String COMPILE_DATE = "2017-01-xx";
+    private static final String COMPILE_DATE = "2017-01-13";
     private static final String JDK_VERSION = "1.8.0_101";
 
     // PROPERTIES
