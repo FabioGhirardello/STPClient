@@ -7,71 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7ded6f85-b39d-4e3f-b98d-f8bdc2a396a1" name="Default" comment="a">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/config/WLClients.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/config/integral.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/config/tidyXml_withsalesdealer.xsl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/config/wlEmail.xsl" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/config/wlIntegral.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/STPClient.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/application/IBMMQClient.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/application/STPApplication.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/quickfix/ScreenLog.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/activation.jar" afterPath="$PROJECT_DIR$/lib/activation.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/com.ibm.mq.jar" afterPath="$PROJECT_DIR$/lib/com.ibm.mq.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/com.ibm.mqjms.jar" afterPath="$PROJECT_DIR$/lib/com.ibm.mqjms.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/jbossall-client.jar" afterPath="$PROJECT_DIR$/lib/jbossall-client.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/log4j-1.2.15.jar" afterPath="$PROJECT_DIR$/lib/log4j-1.2.15.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/mail.jar" afterPath="$PROJECT_DIR$/lib/mail.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/sqlite-jdbc-3.7.2.jar" afterPath="$PROJECT_DIR$/lib/sqlite-jdbc-3.7.2.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libqfj/mina-core-1.1.7.jar" afterPath="$PROJECT_DIR$/libqfj/mina-core-1.1.7.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libqfj/mina-filter-ssl-1.1.7.jar" afterPath="$PROJECT_DIR$/libqfj/mina-filter-ssl-1.1.7.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libqfj/proxool-0.9.1.jar" afterPath="$PROJECT_DIR$/libqfj/proxool-0.9.1.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libqfj/quickfixj-all-1.5.3.jar" afterPath="$PROJECT_DIR$/libqfj/quickfixj-all-1.5.3.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libqfj/sleepycat-je_2.1.30.jar" afterPath="$PROJECT_DIR$/libqfj/sleepycat-je_2.1.30.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libqfj/slf4j-api-1.6.3.jar" afterPath="$PROJECT_DIR$/libqfj/slf4j-api-1.6.3.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/libqfj/slf4j-log4j12-1.6.3.jar" afterPath="$PROJECT_DIR$/libqfj/slf4j-log4j12-1.6.3.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/STPMessages.db" afterPath="$PROJECT_DIR$/res/STPMessages.db" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="$PROJECT_DIR$/.idea/.name" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/STPclient_jar.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/STPclient_jar.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/ghirardellof.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/ghirardellof.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/libqfj.xml" afterPath="$PROJECT_DIR$/.idea/libraries/libqfj.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/slf4j_api_1_6_3.xml" afterPath="$PROJECT_DIR$/.idea/libraries/slf4j_api_1_6_3.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/slf4j_log4j12_1_6_3.xml" afterPath="$PROJECT_DIR$/.idea/libraries/slf4j_log4j12_1_6_3.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" afterPath="$PROJECT_DIR$/.idea/scopes/scope_settings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/STARTUP.bat" afterPath="$PROJECT_DIR$/STARTUP.bat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/STPclient.iml" afterPath="$PROJECT_DIR$/STPclient.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/AddressBook.txt" afterPath="$PROJECT_DIR$/config/AddressBook.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/FIX43.xml" afterPath="$PROJECT_DIR$/config/FIX43.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/TakerPerspectiveXml.xsl" afterPath="$PROJECT_DIR$/config/TakerPerspectiveXml.xsl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/app.properties" afterPath="$PROJECT_DIR$/config/app.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/colombia.xsl" afterPath="$PROJECT_DIR$/config/colombia.xsl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/counter.20150505" afterPath="$PROJECT_DIR$/config/counter.20150505" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/csv.xsl" afterPath="$PROJECT_DIR$/config/csv.xsl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/fix.xsl" afterPath="$PROJECT_DIR$/config/fix.xsl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/log4j.xml" afterPath="$PROJECT_DIR$/config/log4j.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/qfj.properties" afterPath="$PROJECT_DIR$/config/qfj.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/tidyEmail.xsl" afterPath="$PROJECT_DIR$/config/tidyEmail.xsl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/tidyXml.xsl" afterPath="$PROJECT_DIR$/config/tidyXml.xsl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/SQLiteCreateTable.txt" afterPath="$PROJECT_DIR$/res/SQLiteCreateTable.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/sqlscript.sql" afterPath="$PROJECT_DIR$/res/sqlscript.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/STPClient.java" afterPath="$PROJECT_DIR$/src/STPClient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/application/DB.java" afterPath="$PROJECT_DIR$/src/application/DB.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/application/Email.java" afterPath="$PROJECT_DIR$/src/application/Email.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/application/QFJ.java" afterPath="$PROJECT_DIR$/src/application/QFJ.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/application/WL.java" afterPath="$PROJECT_DIR$/src/application/WL.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/application/WriteFile.java" afterPath="$PROJECT_DIR$/src/application/WriteFile.java" />
     </list>
     <ignored path="STPClient.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -704,6 +640,13 @@
       <option name="number" value="Default" />
       <updated>1413922176878</updated>
     </task>
+    <task id="LOCAL-00001" summary="a">
+      <created>1484322272621</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1484322272621</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -753,6 +696,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_NEW_TODO" value="false" />
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
