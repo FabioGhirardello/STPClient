@@ -218,7 +218,7 @@ You can connect to multiple MQ at the same time and have each work and act indiv
 ### 3.0 (2017-01-13)
 
 - Added support for multiple MQ connections. Property file changes accordingly.
-- Renamed STPApplication to STPApp
+- Renamed STPApplication to STPApp.
 - Updated logging output to include Class and the identification name in the property file
 
 ### 2.8 (2016-02-24)
